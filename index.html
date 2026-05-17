@@ -355,6 +355,9 @@
     }
 
     .envelope-wrap {
+      display: grid;
+      justify-items: center;
+      width: 100%;
       text-align: center;
     }
 
@@ -374,28 +377,32 @@
     .envelope-button {
       display: block;
       width: min(100%, 340px);
-      min-height: 220px;
+      min-height: 250px;
       margin: 0 auto;
       padding: 0;
       border-radius: var(--radius-xl);
       background: transparent;
-      perspective: 900px;
+      perspective: 1100px;
       cursor: pointer;
       touch-action: manipulation;
     }
 
     .envelope {
       position: relative;
+      display: block;
       width: 100%;
-      min-height: 220px;
-      overflow: hidden;
+      min-height: 238px;
+      overflow: visible;
       border: 1px solid rgba(255, 255, 255, 0.72);
       border-radius: var(--radius-xl);
-      background: rgba(255, 255, 255, 0.54);
+      background:
+        linear-gradient(155deg, rgba(255, 255, 255, 0.7), rgba(255, 230, 241, 0.56)),
+        radial-gradient(circle at 50% 8%, rgba(255, 255, 255, 0.72), transparent 42%);
       box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.78);
       -webkit-backdrop-filter: blur(22px) saturate(1.2);
       backdrop-filter: blur(22px) saturate(1.2);
       transform-style: preserve-3d;
+      animation: envelopeFloat 3.8s ease-in-out infinite;
     }
 
     .envelope::before,
@@ -406,46 +413,62 @@
     }
 
     .envelope::before {
-      inset: 50% 0 0;
+      inset: 42% 0 0;
+      z-index: 3;
+      overflow: hidden;
+      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
       background:
-        linear-gradient(135deg, transparent 50%, rgba(255, 126, 174, 0.38) 50%) left bottom / 50% 100% no-repeat,
-        linear-gradient(225deg, transparent 50%, rgba(156, 106, 222, 0.26) 50%) right bottom / 50% 100% no-repeat;
+        linear-gradient(135deg, transparent 49%, rgba(255, 126, 174, 0.64) 50%) left bottom / 50% 100% no-repeat,
+        linear-gradient(225deg, transparent 49%, rgba(156, 106, 222, 0.42) 50%) right bottom / 50% 100% no-repeat,
+        linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 221, 233, 0.68));
     }
 
     .envelope::after {
       top: 0;
       left: 0;
       width: 100%;
-      height: 58%;
-      border-radius: var(--radius-xl) var(--radius-xl) 18px 18px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 197, 218, 0.72) 48%, rgba(229, 214, 255, 0.76));
-      box-shadow: 0 16px 28px rgba(154, 80, 129, 0.13);
+      z-index: 5;
+      height: 132px;
+      border-radius: var(--radius-xl) var(--radius-xl) 20px 20px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 197, 218, 0.82) 48%, rgba(229, 214, 255, 0.86)),
+        linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.38) 50%, transparent 51%);
+      box-shadow: 0 18px 30px rgba(154, 80, 129, 0.16);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
-      transition: transform 760ms cubic-bezier(0.2, 0.88, 0.22, 1.02);
+      backface-visibility: hidden;
+      transition: transform 920ms cubic-bezier(0.17, 0.88, 0.2, 1.04), filter 920ms ease, opacity 920ms ease;
     }
 
     .envelope.open::after {
-      transform: rotateX(164deg);
+      opacity: 0.92;
+      filter: drop-shadow(0 -18px 24px rgba(255, 126, 174, 0.16));
+      transform: rotateX(178deg) translateY(-8px);
     }
 
     .letter {
       position: absolute;
-      right: 22px;
-      bottom: 18px;
-      left: 22px;
+      right: 24px;
+      bottom: 20px;
+      left: 24px;
       display: grid;
-      min-height: 130px;
+      z-index: 2;
+      min-height: 138px;
       place-items: center;
       border-radius: 22px;
       color: var(--plum);
-      background: linear-gradient(180deg, #fffdf9, #fff2f7);
-      box-shadow: 0 16px 30px rgba(154, 80, 129, 0.16);
-      transform: translateY(28px);
-      transition: transform 760ms cubic-bezier(0.2, 0.88, 0.22, 1.02);
+      background:
+        linear-gradient(180deg, #fffdf9, #fff2f7),
+        repeating-linear-gradient(0deg, transparent 0 22px, rgba(255, 126, 174, 0.08) 22px 23px);
+      box-shadow: 0 16px 30px rgba(154, 80, 129, 0.18);
+      transform: translateY(48px) scale(0.94);
+      transition: transform 920ms cubic-bezier(0.17, 0.88, 0.2, 1.04), box-shadow 920ms ease;
     }
 
     .envelope.open .letter {
-      transform: translateY(-18px);
+      z-index: 4;
+      box-shadow: 0 24px 48px rgba(255, 79, 143, 0.18);
+      transform: translateY(-62px) scale(1.02) rotate(-1deg);
     }
 
     .letter span {
@@ -454,6 +477,45 @@
       font-size: 1.55rem;
       font-weight: 800;
       line-height: 1.08;
+    }
+
+    .envelope-seal {
+      position: absolute;
+      top: 106px;
+      left: 50%;
+      z-index: 6;
+      display: grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.45rem;
+      background: linear-gradient(135deg, #ff4f8f, #ff8fb6);
+      box-shadow: 0 16px 26px rgba(255, 79, 143, 0.24);
+      transform: translateX(-50%);
+      transition: opacity 380ms ease, transform 520ms ease;
+    }
+
+    .envelope.open .envelope-seal {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-18px) scale(0.5) rotate(18deg);
+    }
+
+    .envelope-shine {
+      position: absolute;
+      inset: -1px;
+      z-index: 7;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.62) 40%, transparent 58%);
+      opacity: 0;
+      transform: translateX(-65%);
+    }
+
+    .envelope.open .envelope-shine {
+      animation: shineSweep 860ms ease 160ms both;
     }
 
     .tap-hint {
@@ -592,16 +654,57 @@
     }
 
     .gallery {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
+      position: relative;
+      width: min(100%, 450px);
+      min-height: clamp(500px, 135vw, 610px);
+      margin: 8px auto 0;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .gallery::before {
+      position: absolute;
+      inset: 34px 6px 54px;
+      z-index: 0;
+      content: "";
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.9), transparent 30%),
+        radial-gradient(circle at 66% 25%, rgba(255, 255, 255, 0.78), transparent 31%),
+        linear-gradient(145deg, rgba(255, 79, 143, 0.36), rgba(255, 179, 126, 0.2) 48%, rgba(156, 106, 222, 0.24));
+      clip-path: polygon(50% 92%, 12% 57%, 6% 35%, 13% 17%, 27% 8%, 42% 11%, 50% 22%, 58% 11%, 73% 8%, 87% 17%, 94% 35%, 88% 57%);
+      filter: blur(0.2px) drop-shadow(0 24px 45px rgba(255, 79, 143, 0.16));
+      opacity: 0.76;
+      animation: heartGlow 4.5s ease-in-out infinite;
+    }
+
+    .gallery::after {
+      position: absolute;
+      right: 22px;
+      bottom: 26px;
+      z-index: 5;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 999px;
+      content: "tap tap ✨";
+      color: rgba(77, 47, 97, 0.74);
+      font-size: 0.84rem;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: 0 12px 24px rgba(154, 80, 129, 0.1);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      animation: tinyBounce 2.4s ease-in-out infinite;
     }
 
     .photo-card {
       position: relative;
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      z-index: var(--z);
       display: block;
       overflow: hidden;
-      width: 100%;
+      width: var(--w);
       padding: 12px 12px 16px;
       border: 1px solid rgba(255, 255, 255, 0.68);
       border-radius: 26px;
@@ -613,20 +716,23 @@
       box-shadow: 0 18px 46px rgba(154, 80, 129, 0.19), inset 0 1px 0 rgba(255, 255, 255, 0.78);
       -webkit-backdrop-filter: blur(18px);
       backdrop-filter: blur(18px);
-      transform: rotate(var(--tilt));
+      transform: translate3d(0, 0, 0) rotate(var(--tilt));
       transition: transform 220ms ease, box-shadow 220ms ease;
+      animation: photoFloat 4.2s ease-in-out infinite;
+      animation-delay: var(--delay);
     }
 
     .photo-card:nth-child(2) {
-      transform: rotate(var(--tilt)) translateY(2px);
+      animation-duration: 4.8s;
     }
 
     .photo-card:active {
-      transform: rotate(var(--tilt)) scale(0.985);
+      transform: translate3d(0, 0, 0) rotate(var(--tilt)) scale(0.985);
     }
 
     .photo-card.is-loved {
       box-shadow: 0 22px 58px rgba(255, 79, 143, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+      animation-play-state: paused;
     }
 
     .photo-card::before {
@@ -670,12 +776,36 @@
       transform: scale(1.06) rotate(8deg);
     }
 
-    .photo-card img {
+    .photo-frame {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: 20px;
+      clip-path: polygon(50% 95%, 9% 59%, 3% 35%, 11% 14%, 30% 6%, 45% 17%, 50% 28%, 55% 17%, 70% 6%, 89% 14%, 97% 35%, 91% 59%);
+      background: linear-gradient(135deg, rgba(255, 126, 174, 0.26), rgba(156, 106, 222, 0.22), rgba(255, 218, 188, 0.48));
+      transform: translateZ(0);
+    }
+
+    .photo-frame::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 35% 18%, rgba(255, 255, 255, 0.26), transparent 34%),
+        linear-gradient(180deg, transparent 48%, rgba(77, 47, 97, 0.16));
+    }
+
+    .photo-card img,
+    .photo-placeholder {
       width: 100%;
       aspect-ratio: 1.38 / 1;
       object-fit: cover;
-      border-radius: 19px;
       background: linear-gradient(135deg, rgba(255, 126, 174, 0.26), rgba(156, 106, 222, 0.22), rgba(255, 218, 188, 0.48));
+    }
+
+    .photo-placeholder {
+      display: block;
     }
 
     .photo-caption {
@@ -1036,6 +1166,17 @@
       text-align: center;
     }
 
+    .reveal-pop {
+      opacity: 0;
+      transform: translateY(18px) scale(0.985);
+      transition: opacity 520ms ease, transform 520ms cubic-bezier(0.2, 0.82, 0.22, 1);
+    }
+
+    .reveal-pop.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
     .float-layer,
     .particle-layer {
       position: fixed;
@@ -1127,6 +1268,62 @@
       100% {
         opacity: 0;
         transform: translate3d(var(--drift), -112vh, 0) rotate(26deg);
+      }
+    }
+
+    @keyframes envelopeFloat {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-0.6deg);
+      }
+      50% {
+        transform: translateY(-8px) rotate(0.6deg);
+      }
+    }
+
+    @keyframes shineSweep {
+      0% {
+        opacity: 0;
+        transform: translateX(-70%);
+      }
+      24% {
+        opacity: 0.75;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(78%);
+      }
+    }
+
+    @keyframes heartGlow {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.025);
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes photoFloat {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) rotate(var(--tilt));
+      }
+      50% {
+        transform: translate3d(0, -8px, 0) rotate(var(--tilt-soft));
+      }
+    }
+
+    @keyframes tinyBounce {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+      50% {
+        transform: translateY(-6px) rotate(2deg);
       }
     }
 
@@ -1299,6 +1496,8 @@
         <p class="envelope-subtitle">One tap. Lepas tu jangan kata I tak warning kalau jadi sweet sangat.</p>
         <button class="envelope-button" id="envelopeBtn" type="button" aria-label="Open this little surprise">
           <span class="envelope" id="envelope">
+            <span class="envelope-shine"></span>
+            <span class="envelope-seal">♥</span>
             <span class="letter"><span>For you 💌</span></span>
           </span>
         </button>
@@ -1496,6 +1695,7 @@ but because of all the little things about you.`;
     let noAttempts = 0;
     let noButtonFixed = false;
     let lastRunAt = 0;
+    let lastTouchRunAt = 0;
     let envelopeOpened = false;
     let blushLevel = 12;
     const foundSpots = new Set();
@@ -1584,15 +1784,33 @@ but because of all the little things about you.`;
       toast.addEventListener("animationend", () => toast.remove(), { once: true });
     }
 
+    function shouldHandleRunAway(event) {
+      event = event || { type: "manual" };
+      const now = Date.now();
+
+      if (event.type === "touchstart") {
+        lastTouchRunAt = now;
+      }
+
+      if (event.type === "pointerdown" && event.pointerType === "touch") {
+        if (now - lastTouchRunAt < 700) return false;
+        lastTouchRunAt = now;
+      }
+
+      if (event.type === "click" && now - lastRunAt < 700) return false;
+      if (now - lastRunAt < 430) return false;
+
+      lastRunAt = now;
+      return true;
+    }
+
     function runAway(event) {
       if (event) {
         event.preventDefault();
         event.stopPropagation();
       }
 
-      const now = Date.now();
-      if (now - lastRunAt < 230 || noThanksBtn.classList.contains("vanish")) return;
-      lastRunAt = now;
+      if (noThanksBtn.classList.contains("vanish") || !shouldHandleRunAway(event)) return;
 
       noAttempts += 1;
       vibrate(22);
@@ -1670,6 +1888,7 @@ but because of all the little things about you.`;
       burstHearts(window.innerWidth / 2, window.innerHeight * 0.44, 20);
 
       setTimeout(() => {
+        document.querySelectorAll(".cute-toast").forEach((toast) => toast.remove());
         showScreen("surprise");
         confettiBurst(window.innerWidth / 2, 140, 40);
         burstHearts(window.innerWidth / 2, 150, 12);
@@ -1717,28 +1936,43 @@ but because of all the little things about you.`;
 
     function renderGallery() {
       const captions = ["photo ni macam love letter", "soft launch of feelings", "today's tiny romance"];
-      const tilts = ["-1.2deg", "1deg", "-0.6deg"];
+      const collage = [
+        { x: "3%", y: "42px", w: "62%", tilt: "-7deg", soft: "-4deg", z: 2, delay: "-0.4s" },
+        { x: "39%", y: "36px", w: "58%", tilt: "7deg", soft: "4deg", z: 3, delay: "-1.2s" },
+        { x: "17%", y: "245px", w: "69%", tilt: "-1deg", soft: "1.5deg", z: 4, delay: "-2s" }
+      ];
       gallery.innerHTML = "";
 
       imageLinks.slice(0, 3).forEach((src, index) => {
+        const position = collage[index] || collage[0];
         const card = document.createElement("button");
         card.className = "photo-card";
         card.type = "button";
-        card.style.setProperty("--tilt", tilts[index] || "0deg");
+        card.style.setProperty("--x", position.x);
+        card.style.setProperty("--y", position.y);
+        card.style.setProperty("--w", position.w);
+        card.style.setProperty("--z", position.z);
+        card.style.setProperty("--tilt", position.tilt);
+        card.style.setProperty("--tilt-soft", position.soft);
+        card.style.setProperty("--delay", position.delay);
         card.setAttribute("aria-label", `Open secret note for photo ${index + 1}`);
+
+        const frame = document.createElement("span");
+        frame.className = "photo-frame";
 
         if (src && src.trim()) {
           const img = document.createElement("img");
           img.src = src.trim();
           img.alt = `Romantic memory ${index + 1}`;
           img.loading = "lazy";
-          card.appendChild(img);
+          frame.appendChild(img);
         } else {
           const placeholder = document.createElement("div");
-          placeholder.style.aspectRatio = "1.38 / 1";
-          placeholder.style.background = "linear-gradient(135deg, rgba(255,126,174,0.26), rgba(156,106,222,0.22), rgba(255,218,188,0.5))";
-          card.appendChild(placeholder);
+          placeholder.className = "photo-placeholder";
+          frame.appendChild(placeholder);
         }
+
+        card.appendChild(frame);
 
         const caption = document.createElement("div");
         caption.className = "photo-caption";
@@ -1780,6 +2014,33 @@ but because of all the little things about you.`;
       if (foundSpots.size >= spotButtons.length) {
         setTimeout(() => confettiBurst(window.innerWidth / 2, window.innerHeight * 0.52, 38), 180);
       }
+    }
+
+    function setupRevealAnimations() {
+      const revealItems = document.querySelectorAll(
+        ".sweet-strip, .section-title, .section-helper, .gallery, .memory-card, .quote-card, .surprise-spots, .blush-card, .music-panel, .final-panel, .footer-note"
+      );
+
+      revealItems.forEach((item, index) => {
+        item.classList.add("reveal-pop");
+        item.style.transitionDelay = `${Math.min(index * 35, 220)}ms`;
+      });
+
+      if (!("IntersectionObserver" in window)) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+      revealItems.forEach((item) => observer.observe(item));
     }
 
     function updateBlushMeter() {
@@ -1864,6 +2125,7 @@ but because of all the little things about you.`;
     function init() {
       setAppHeight();
       renderGallery();
+      setupRevealAnimations();
       updateBlushMeter();
       setupMusic();
 
