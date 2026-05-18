@@ -3,89 +3,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#ffd7e6">
+  <meta name="theme-color" content="#07152f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>A Little Surprise</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+  <script>
+    window.tailwind = window.tailwind || {};
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            body: ["Nunito", "system-ui", "sans-serif"],
+            display: ["Playfair Display", "Georgia", "serif"]
+          },
+          colors: {
+            ink: "#f8f2ff",
+            navy: "#07152f",
+            midnight: "#0b1f4a",
+            ocean: "#123d7a",
+            rose: "#ff4f9a",
+            blush: "#ff9bc3",
+            cream: "#fff4ea"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
   <style>
     :root {
       --app-height: 100vh;
-      --cream: #fff8ee;
-      --peach: #ffd9bf;
-      --pink: #ff7eae;
-      --rose: #ff4f8f;
-      --violet: #9c6ade;
-      --plum: #4d2f61;
-      --ink: #342237;
-      --soft-ink: rgba(52, 34, 55, 0.72);
-      --glass: rgba(255, 255, 255, 0.58);
-      --glass-strong: rgba(255, 255, 255, 0.74);
-      --stroke: rgba(255, 255, 255, 0.72);
-      --shadow: 0 24px 70px rgba(154, 80, 129, 0.24);
-      --radius-xl: 32px;
-      --radius-lg: 26px;
-      --radius-md: 20px;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-right: env(safe-area-inset-right, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-left: env(safe-area-inset-left, 0px);
+      --navy: #07152f;
+      --navy-2: #0b1f4a;
+      --blue: #1553a4;
+      --pink: #ff4f9a;
+      --pink-2: #ff9bc3;
+      --cream: #fff4ea;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      min-height: 100%;
-      width: 100%;
-      overflow-x: hidden;
-      background: var(--cream);
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
-
+    html,
     body {
-      min-height: 100%;
       width: 100%;
+      min-height: 100%;
       margin: 0;
       overflow-x: hidden;
-      color: var(--ink);
-      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        linear-gradient(135deg, rgba(255, 248, 238, 0.98) 0%, rgba(255, 220, 231, 0.98) 38%, rgba(229, 214, 255, 0.96) 68%, rgba(255, 218, 188, 0.98) 100%);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background: var(--navy);
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
       -webkit-tap-highlight-color: transparent;
       overscroll-behavior-x: none;
     }
 
-    body::before {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      content: "";
-      pointer-events: none;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)),
-        repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.13) 0 1px, transparent 1px 24px);
-      opacity: 0.68;
-    }
-
-    body::after {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      content: "";
-      pointer-events: none;
-      background: radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.58), transparent 42%);
-      mix-blend-mode: soft-light;
+    body {
+      color: #fff;
+      font-family: "Nunito", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     button,
-    a,
     input,
     textarea {
       font: inherit;
@@ -93,31 +87,12 @@
 
     button {
       min-height: 50px;
-      border: 0;
-      cursor: pointer;
       touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
     }
 
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    .app {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      min-height: 100svh;
-      min-height: 100dvh;
-      min-height: var(--app-height);
-      overflow-x: hidden;
-    }
-
-    .screen {
-      display: none;
-      width: 100%;
+    .app-shell {
       min-height: 100vh;
       min-height: 100svh;
       min-height: 100dvh;
@@ -125,1051 +100,262 @@
       padding:
         calc(18px + var(--safe-top))
         max(18px, var(--safe-right))
-        calc(20px + var(--safe-bottom))
+        calc(24px + var(--safe-bottom))
         max(18px, var(--safe-left));
-      opacity: 0;
-      transform: translateY(10px) scale(0.992);
-      transition: opacity 420ms ease, transform 420ms ease;
+      position: relative;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 79, 154, 0.28), transparent 38%),
+        radial-gradient(circle at 12% 18%, rgba(32, 115, 210, 0.38), transparent 28%),
+        linear-gradient(145deg, #07152f 0%, #0c2050 44%, #12245d 67%, #ff5ca7 140%);
     }
 
-    .screen.active {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0) scale(1);
+    .aurora {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.68;
+      background:
+        conic-gradient(from 180deg at 42% 45%, transparent 0 20%, rgba(255, 79, 154, 0.32) 29%, transparent 42%, rgba(34, 116, 220, 0.36) 55%, transparent 72%, rgba(255, 174, 206, 0.24) 82%, transparent 100%),
+        linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      filter: blur(34px) saturate(1.2);
+      animation: auroraMove 13s ease-in-out infinite alternate;
     }
 
-    .center-screen {
-      align-items: center;
-      justify-content: center;
+    .star-field {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
     }
 
-    .stack {
-      width: min(100%, 440px);
-      margin: 0 auto;
+    .floating-heart {
+      position: absolute;
+      left: var(--x);
+      bottom: -40px;
+      color: rgba(255, 155, 195, 0.52);
+      font-size: var(--s);
+      filter: drop-shadow(0 8px 18px rgba(255, 79, 154, 0.18));
+      animation: floatUp var(--d) linear infinite;
+      animation-delay: var(--delay);
+      will-change: transform, opacity;
     }
 
-    .glass-card {
+    .glass {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      -webkit-backdrop-filter: blur(24px) saturate(1.22);
+      backdrop-filter: blur(24px) saturate(1.22);
+    }
+
+    .shine-button {
       position: relative;
       overflow: hidden;
-      width: 100%;
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius-xl);
-      background: var(--glass);
-      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      -webkit-backdrop-filter: blur(22px) saturate(1.22);
-      backdrop-filter: blur(22px) saturate(1.22);
+      transform: translateZ(0);
     }
 
-    .glass-card::before {
+    .shine-button::after {
+      content: "";
       position: absolute;
       inset: 0;
-      content: "";
       pointer-events: none;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.08) 44%, rgba(255, 255, 255, 0.28));
-      opacity: 0.64;
+      background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.46) 45%, transparent 62%);
+      transform: translateX(-110%);
+      animation: buttonShine 3.4s ease-in-out infinite;
     }
 
-    .glass-card > * {
-      position: relative;
-      z-index: 1;
+    .screen-enter {
+      animation: screenEnter 520ms cubic-bezier(0.2, 0.82, 0.22, 1) both;
     }
 
-    .intro-card {
-      padding: clamp(28px, 8vw, 38px);
-      text-align: center;
+    .tap-pulse {
+      animation: tapPulse 2.2s ease-in-out infinite;
     }
 
-    .kicker {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 34px;
-      margin: 0 0 20px;
-      padding: 8px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      border-radius: 999px;
-      color: rgba(77, 47, 97, 0.76);
-      font-size: 0.82rem;
-      font-weight: 800;
-      letter-spacing: 0;
-      background: rgba(255, 255, 255, 0.46);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
-    }
-
-    h1,
-    h2,
-    h3 {
-      margin: 0;
-      color: var(--ink);
-      font-family: "Playfair Display", Georgia, serif;
-      letter-spacing: 0;
-      text-wrap: balance;
-    }
-
-    .intro-title {
-      font-size: clamp(2.35rem, 11vw, 3.65rem);
-      line-height: 0.96;
-    }
-
-    .intro-subtitle {
-      max-width: 24rem;
-      margin: 18px auto 0;
-      color: var(--soft-ink);
-      font-size: clamp(1.02rem, 4.5vw, 1.16rem);
-      font-weight: 700;
-      line-height: 1.45;
-    }
-
-    .intro-actions {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 28px;
-      min-height: 116px;
-    }
-
-    .primary-button,
-    .secondary-button,
-    .music-button,
-    .choice-button {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 56px;
-      padding: 15px 18px;
-      border-radius: 18px;
-      font-weight: 900;
-      letter-spacing: 0;
-      transform: translateZ(0);
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, opacity 180ms ease;
-      will-change: transform;
-    }
-
-    .primary-button {
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f8f 0%, #ff7aa8 48%, #9c6ade 100%);
-      box-shadow: 0 18px 34px rgba(255, 79, 143, 0.28);
-    }
-
-    .secondary-button {
-      color: var(--plum);
-      background: rgba(255, 255, 255, 0.56);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72), 0 14px 28px rgba(116, 72, 133, 0.12);
-    }
-
-    .primary-button:active,
-    .secondary-button:active,
-    .music-button:active,
-    .choice-button:active,
-    .envelope-button:active {
-      transform: scale(0.975);
-    }
-
-    .tease-line {
-      min-height: 24px;
-      margin: 18px 8px 0;
-      color: rgba(77, 47, 97, 0.78);
-      font-size: 0.95rem;
-      font-weight: 800;
-      line-height: 1.35;
-      transition: opacity 220ms ease, transform 220ms ease;
-    }
-
-    .tease-line.pop {
-      animation: popText 360ms ease;
-    }
-
-    .no-button {
-      transition: left 280ms cubic-bezier(0.2, 0.85, 0.25, 1), top 280ms cubic-bezier(0.2, 0.85, 0.25, 1), transform 280ms ease, opacity 260ms ease;
-    }
-
-    .no-button.vanish {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.52) rotate(-7deg);
-    }
-
-    .loading-card {
-      padding: clamp(26px, 7vw, 38px);
-      text-align: center;
-    }
-
-    .loading-title {
-      font-size: clamp(2rem, 9vw, 3rem);
-      line-height: 1;
-    }
-
-    .loading-text {
-      margin: 18px auto 0;
-      color: var(--soft-ink);
-      font-size: 1rem;
-      font-weight: 800;
-      line-height: 1.45;
-    }
-
-    .progress-shell {
-      overflow: hidden;
-      width: 100%;
-      height: 14px;
-      margin-top: 28px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.62);
-      box-shadow: inset 0 1px 5px rgba(77, 47, 97, 0.12);
-    }
-
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #ff4f8f, #ffbf91, #9c6ade);
-      box-shadow: 0 0 18px rgba(255, 79, 143, 0.44);
-      transition: width 3000ms cubic-bezier(0.18, 0.82, 0.22, 1);
-    }
-
-    .loading-dots {
-      display: flex;
-      justify-content: center;
-      gap: 7px;
-      margin-top: 18px;
-    }
-
-    .loading-dots span {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(255, 79, 143, 0.72);
-      animation: dotPulse 900ms ease-in-out infinite;
-    }
-
-    .loading-dots span:nth-child(2) {
-      animation-delay: 120ms;
-      background: rgba(255, 178, 139, 0.82);
-    }
-
-    .loading-dots span:nth-child(3) {
-      animation-delay: 240ms;
-      background: rgba(156, 106, 222, 0.72);
-    }
-
-    .envelope-wrap {
-      display: grid;
-      justify-items: center;
-      width: 100%;
-      text-align: center;
-    }
-
-    .envelope-title {
-      font-size: clamp(2.15rem, 10vw, 3.35rem);
-      line-height: 0.98;
-    }
-
-    .envelope-subtitle {
-      margin: 14px auto 24px;
-      color: var(--soft-ink);
-      font-size: 1.02rem;
-      font-weight: 800;
-      line-height: 1.45;
-    }
-
-    .envelope-button {
-      display: block;
-      width: min(100%, 340px);
-      min-height: 250px;
-      margin: 0 auto;
-      padding: 0;
-      border-radius: var(--radius-xl);
-      background: transparent;
-      perspective: 1100px;
-      cursor: pointer;
-      touch-action: manipulation;
+    .meter-spark {
+      animation: meterGlow 2s ease-in-out infinite;
     }
 
     .envelope {
+      width: min(100%, 350px);
+      height: 250px;
       position: relative;
-      display: block;
-      width: 100%;
-      min-height: 238px;
-      overflow: visible;
-      border: 1px solid rgba(255, 255, 255, 0.72);
-      border-radius: var(--radius-xl);
-      background:
-        linear-gradient(155deg, rgba(255, 255, 255, 0.7), rgba(255, 230, 241, 0.56)),
-        radial-gradient(circle at 50% 8%, rgba(255, 255, 255, 0.72), transparent 42%);
-      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.78);
-      -webkit-backdrop-filter: blur(22px) saturate(1.2);
-      backdrop-filter: blur(22px) saturate(1.2);
+      perspective: 1200px;
       transform-style: preserve-3d;
-      animation: envelopeFloat 3.8s ease-in-out infinite;
+      animation: envelopeFloat 3.6s ease-in-out infinite;
     }
 
-    .envelope::before,
-    .envelope::after {
+    .envelope-base {
       position: absolute;
-      content: "";
-      pointer-events: none;
+      inset: 0;
+      overflow: visible;
+      border-radius: 34px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 155, 195, 0.42)),
+        linear-gradient(45deg, rgba(255, 79, 154, 0.62) 0 50%, rgba(60, 129, 235, 0.48) 50% 100%);
+      box-shadow: 0 24px 62px rgba(255, 79, 154, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.36);
     }
 
-    .envelope::before {
+    .envelope-pocket {
+      position: absolute;
       inset: 42% 0 0;
-      z-index: 3;
-      overflow: hidden;
-      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+      z-index: 4;
+      border-radius: 0 0 34px 34px;
       background:
-        linear-gradient(135deg, transparent 49%, rgba(255, 126, 174, 0.64) 50%) left bottom / 50% 100% no-repeat,
-        linear-gradient(225deg, transparent 49%, rgba(156, 106, 222, 0.42) 50%) right bottom / 50% 100% no-repeat,
-        linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 221, 233, 0.68));
+        linear-gradient(135deg, transparent 49%, rgba(255, 79, 154, 0.82) 50%) left bottom / 50% 100% no-repeat,
+        linear-gradient(225deg, transparent 49%, rgba(36, 104, 218, 0.72) 50%) right bottom / 50% 100% no-repeat,
+        linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 155, 195, 0.26));
     }
 
-    .envelope::after {
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 5;
-      height: 132px;
-      border-radius: var(--radius-xl) var(--radius-xl) 20px 20px;
-      background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 197, 218, 0.82) 48%, rgba(229, 214, 255, 0.86)),
-        linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.38) 50%, transparent 51%);
-      box-shadow: 0 18px 30px rgba(154, 80, 129, 0.16);
+    .envelope-flap {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 7;
+      height: 142px;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-radius: 34px 34px 18px 18px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 155, 195, 0.82) 54%, rgba(90, 154, 255, 0.78));
+      box-shadow: 0 18px 28px rgba(5, 14, 40, 0.2);
       transform-origin: top center;
       backface-visibility: hidden;
-      transition: transform 920ms cubic-bezier(0.17, 0.88, 0.2, 1.04), filter 920ms ease, opacity 920ms ease;
+      transition: transform 950ms cubic-bezier(0.17, 0.88, 0.2, 1.04), opacity 950ms ease, filter 950ms ease;
     }
 
-    .envelope.open::after {
+    .envelope.open .envelope-flap {
       opacity: 0.92;
-      filter: drop-shadow(0 -18px 24px rgba(255, 126, 174, 0.16));
+      filter: drop-shadow(0 -18px 25px rgba(255, 79, 154, 0.16));
       transform: rotateX(178deg) translateY(-8px);
     }
 
-    .letter {
+    .envelope-letter {
       position: absolute;
+      left: 24px;
       right: 24px;
       bottom: 20px;
-      left: 24px;
+      z-index: 3;
+      min-height: 142px;
       display: grid;
-      z-index: 2;
-      min-height: 138px;
       place-items: center;
-      border-radius: 22px;
-      color: var(--plum);
+      border-radius: 26px;
+      color: #0b1f4a;
       background:
-        linear-gradient(180deg, #fffdf9, #fff2f7),
-        repeating-linear-gradient(0deg, transparent 0 22px, rgba(255, 126, 174, 0.08) 22px 23px);
-      box-shadow: 0 16px 30px rgba(154, 80, 129, 0.18);
-      transform: translateY(48px) scale(0.94);
-      transition: transform 920ms cubic-bezier(0.17, 0.88, 0.2, 1.04), box-shadow 920ms ease;
+        linear-gradient(180deg, #fff8fd, #ffeaf3),
+        repeating-linear-gradient(0deg, transparent 0 22px, rgba(255, 79, 154, 0.08) 22px 23px);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+      transform: translateY(52px) scale(0.94);
+      transition: transform 950ms cubic-bezier(0.17, 0.88, 0.2, 1.04), box-shadow 950ms ease;
     }
 
-    .envelope.open .letter {
-      z-index: 4;
-      box-shadow: 0 24px 48px rgba(255, 79, 143, 0.18);
-      transform: translateY(-62px) scale(1.02) rotate(-1deg);
-    }
-
-    .letter span {
-      padding: 18px;
-      font-family: "Playfair Display", Georgia, serif;
-      font-size: 1.55rem;
-      font-weight: 800;
-      line-height: 1.08;
+    .envelope.open .envelope-letter {
+      z-index: 6;
+      box-shadow: 0 26px 54px rgba(255, 79, 154, 0.26);
+      transform: translateY(-66px) scale(1.02) rotate(-1deg);
     }
 
     .envelope-seal {
       position: absolute;
-      top: 106px;
+      top: 105px;
       left: 50%;
-      z-index: 6;
+      z-index: 8;
+      width: 60px;
+      height: 60px;
       display: grid;
-      width: 58px;
-      height: 58px;
       place-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.74);
       border-radius: 50%;
       color: #fff;
       font-size: 1.45rem;
-      background: linear-gradient(135deg, #ff4f8f, #ff8fb6);
-      box-shadow: 0 16px 26px rgba(255, 79, 143, 0.24);
+      background: linear-gradient(135deg, #ff4f9a, #ff9bc3);
+      border: 1px solid rgba(255, 255, 255, 0.54);
+      box-shadow: 0 18px 30px rgba(255, 79, 154, 0.32);
       transform: translateX(-50%);
-      transition: opacity 380ms ease, transform 520ms ease;
+      transition: opacity 420ms ease, transform 600ms ease;
     }
 
     .envelope.open .envelope-seal {
       opacity: 0;
-      transform: translateX(-50%) translateY(-18px) scale(0.5) rotate(18deg);
+      transform: translateX(-50%) translateY(-18px) scale(0.42) rotate(18deg);
     }
 
-    .envelope-shine {
-      position: absolute;
-      inset: -1px;
-      z-index: 7;
-      border-radius: inherit;
-      pointer-events: none;
-      background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.62) 40%, transparent 58%);
-      opacity: 0;
-      transform: translateX(-65%);
-    }
-
-    .envelope.open .envelope-shine {
-      animation: shineSweep 860ms ease 160ms both;
-    }
-
-    .tap-hint {
-      margin-top: 16px;
-      color: rgba(77, 47, 97, 0.64);
-      font-size: 0.92rem;
-      font-weight: 800;
-    }
-
-    .surprise-screen {
-      display: none;
-      align-items: flex-start;
-      padding-bottom: calc(34px + var(--safe-bottom));
-    }
-
-    .surprise-screen.active {
-      display: block;
-    }
-
-    .page {
-      width: min(100%, 470px);
-      margin: 0 auto;
-      padding-bottom: 10px;
-    }
-
-    .hero-panel {
-      padding: clamp(26px, 7vw, 36px);
-      margin-bottom: 16px;
-    }
-
-    .surprise-title {
-      font-size: clamp(2.42rem, 11vw, 3.8rem);
-      line-height: 0.96;
-    }
-
-    .hero-panel::after {
-      position: absolute;
-      top: 24px;
-      right: 20px;
-      z-index: 0;
-      width: 78px;
-      height: 78px;
-      border: 1px solid rgba(255, 255, 255, 0.62);
-      border-radius: 50%;
-      content: "awww";
+    .heart-gallery {
       display: grid;
-      place-items: center;
-      color: rgba(255, 79, 143, 0.78);
-      font-size: 0.86rem;
-      font-weight: 900;
-      background: rgba(255, 255, 255, 0.42);
-      box-shadow: 0 14px 30px rgba(255, 79, 143, 0.12);
-      transform: rotate(12deg);
-    }
-
-    .from-line {
-      margin: 16px 0 0;
-      color: rgba(77, 47, 97, 0.68);
-      font-size: 0.96rem;
-      font-weight: 800;
-    }
-
-    .message {
-      margin-top: 24px;
-      color: rgba(52, 34, 55, 0.82);
-      font-size: clamp(1.02rem, 4vw, 1.12rem);
-      font-weight: 700;
-      line-height: 1.66;
-      user-select: text;
-      -webkit-user-select: text;
-    }
-
-    .message p {
-      margin: 0 0 1rem;
-    }
-
-    .message p:last-child {
-      margin-bottom: 0;
-    }
-
-    .section-title {
-      margin: 26px 2px 12px;
-      font-family: "Nunito", system-ui, sans-serif;
-      font-size: 0.94rem;
-      font-weight: 900;
-      color: rgba(77, 47, 97, 0.66);
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-
-    .section-helper {
-      margin: -4px 2px 12px;
-      color: rgba(77, 47, 97, 0.62);
-      font-size: 0.94rem;
-      font-weight: 800;
-      line-height: 1.42;
-    }
-
-    .sweet-strip {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-rows: clamp(58px, 16vw, 76px);
+      gap: 10px;
       position: relative;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 12px;
-      align-items: center;
-      margin: 0 0 18px;
-      padding: 14px 15px;
-      border: 1px solid rgba(255, 255, 255, 0.72);
-      border-radius: 24px;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 235, 242, 0.42)),
-        radial-gradient(circle at 18% 30%, rgba(255, 79, 143, 0.18), transparent 32%);
-      box-shadow: 0 16px 38px rgba(154, 80, 129, 0.12);
-      -webkit-backdrop-filter: blur(18px) saturate(1.18);
-      backdrop-filter: blur(18px) saturate(1.18);
-    }
-
-    .sweet-strip span {
-      display: grid;
-      width: 48px;
-      height: 48px;
-      place-items: center;
-      border-radius: 17px;
-      color: #fff;
-      font-weight: 900;
-      background: linear-gradient(135deg, #ff4f8f, #ffb37e);
-      box-shadow: 0 12px 24px rgba(255, 79, 143, 0.22);
-      transform: rotate(-5deg);
-    }
-
-    .sweet-strip p {
-      margin: 0;
-      color: rgba(52, 34, 55, 0.76);
-      font-size: 0.98rem;
-      font-weight: 900;
-      line-height: 1.35;
-    }
-
-    .gallery {
-      position: relative;
-      width: min(100%, 450px);
-      min-height: clamp(500px, 135vw, 610px);
-      margin: 8px auto 0;
-      overflow: hidden;
       isolation: isolate;
     }
 
-    .gallery::before {
-      position: absolute;
-      inset: 34px 6px 54px;
-      z-index: 0;
+    .heart-gallery::before {
       content: "";
-      background:
-        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.9), transparent 30%),
-        radial-gradient(circle at 66% 25%, rgba(255, 255, 255, 0.78), transparent 31%),
-        linear-gradient(145deg, rgba(255, 79, 143, 0.36), rgba(255, 179, 126, 0.2) 48%, rgba(156, 106, 222, 0.24));
-      clip-path: polygon(50% 92%, 12% 57%, 6% 35%, 13% 17%, 27% 8%, 42% 11%, 50% 22%, 58% 11%, 73% 8%, 87% 17%, 94% 35%, 88% 57%);
-      filter: blur(0.2px) drop-shadow(0 24px 45px rgba(255, 79, 143, 0.16));
-      opacity: 0.76;
-      animation: heartGlow 4.5s ease-in-out infinite;
-    }
-
-    .gallery::after {
       position: absolute;
-      right: 22px;
-      bottom: 26px;
-      z-index: 5;
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      border-radius: 999px;
-      content: "tap tap ✨";
-      color: rgba(77, 47, 97, 0.74);
-      font-size: 0.84rem;
-      font-weight: 900;
-      background: rgba(255, 255, 255, 0.64);
-      box-shadow: 0 12px 24px rgba(154, 80, 129, 0.1);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
-      animation: tinyBounce 2.4s ease-in-out infinite;
+      inset: 8px 6px 10px;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 35% 24%, rgba(255, 255, 255, 0.55), transparent 30%),
+        radial-gradient(circle at 66% 24%, rgba(255, 255, 255, 0.42), transparent 30%),
+        linear-gradient(145deg, rgba(255, 79, 154, 0.42), rgba(28, 105, 219, 0.28));
+      clip-path: polygon(50% 94%, 11% 59%, 4% 36%, 12% 15%, 30% 5%, 44% 15%, 50% 27%, 56% 15%, 70% 5%, 88% 15%, 96% 36%, 89% 59%);
+      filter: drop-shadow(0 22px 34px rgba(255, 79, 154, 0.18));
+      animation: heartGlow 4s ease-in-out infinite;
     }
 
-    .photo-card {
+    .gallery-tile {
       position: relative;
-      position: absolute;
-      left: var(--x);
-      top: var(--y);
-      z-index: var(--z);
-      display: block;
       overflow: hidden;
-      width: var(--w);
-      padding: 12px 12px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      border-radius: 26px;
-      color: var(--ink);
-      text-align: left;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 244, 249, 0.76)),
-        repeating-linear-gradient(-45deg, rgba(255, 126, 174, 0.08) 0 8px, transparent 8px 18px);
-      box-shadow: 0 18px 46px rgba(154, 80, 129, 0.19), inset 0 1px 0 rgba(255, 255, 255, 0.78);
-      -webkit-backdrop-filter: blur(18px);
-      backdrop-filter: blur(18px);
-      transform: translate3d(0, 0, 0) rotate(var(--tilt));
-      transition: transform 220ms ease, box-shadow 220ms ease;
-      animation: photoFloat 4.2s ease-in-out infinite;
+      min-height: 100%;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateZ(0) rotate(var(--tilt));
+      animation: photoFloat 4.4s ease-in-out infinite;
       animation-delay: var(--delay);
     }
 
-    .photo-card:nth-child(2) {
-      animation-duration: 4.8s;
-    }
-
-    .photo-card:active {
-      transform: translate3d(0, 0, 0) rotate(var(--tilt)) scale(0.985);
-    }
-
-    .photo-card.is-loved {
-      box-shadow: 0 22px 58px rgba(255, 79, 143, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.84);
-      animation-play-state: paused;
-    }
-
-    .photo-card::before {
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      z-index: 3;
-      width: 92px;
-      height: 28px;
-      border-radius: 9px;
+    .gallery-tile::after {
       content: "";
-      background: rgba(255, 239, 176, 0.72);
-      box-shadow: 0 7px 16px rgba(95, 61, 82, 0.1);
-      transform: translateX(-50%) rotate(-2deg);
-    }
-
-    .photo-card::after {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 4;
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      border-radius: 50%;
-      content: "♡";
-      color: #ff4f8f;
-      font-size: 1.35rem;
-      font-weight: 900;
-      background: rgba(255, 255, 255, 0.76);
-      box-shadow: 0 12px 22px rgba(255, 79, 143, 0.16);
-      transition: transform 220ms ease, background 220ms ease;
-    }
-
-    .photo-card.is-loved::after {
-      content: "♥";
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f8f, #ff9bbb);
-      transform: scale(1.06) rotate(8deg);
-    }
-
-    .photo-frame {
-      position: relative;
-      display: block;
-      overflow: hidden;
-      border-radius: 20px;
-      clip-path: polygon(50% 95%, 9% 59%, 3% 35%, 11% 14%, 30% 6%, 45% 17%, 50% 28%, 55% 17%, 70% 6%, 89% 14%, 97% 35%, 91% 59%);
-      background: linear-gradient(135deg, rgba(255, 126, 174, 0.26), rgba(156, 106, 222, 0.22), rgba(255, 218, 188, 0.48));
-      transform: translateZ(0);
-    }
-
-    .photo-frame::after {
       position: absolute;
       inset: 0;
-      content: "";
       pointer-events: none;
       background:
-        radial-gradient(circle at 35% 18%, rgba(255, 255, 255, 0.26), transparent 34%),
-        linear-gradient(180deg, transparent 48%, rgba(77, 47, 97, 0.16));
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.3), transparent 35%),
+        linear-gradient(180deg, transparent 42%, rgba(7, 21, 47, 0.54));
     }
 
-    .photo-card img,
-    .photo-placeholder {
+    .gallery-tile img {
       width: 100%;
-      aspect-ratio: 1.38 / 1;
-      object-fit: cover;
-      background: linear-gradient(135deg, rgba(255, 126, 174, 0.26), rgba(156, 106, 222, 0.22), rgba(255, 218, 188, 0.48));
-    }
-
-    .photo-placeholder {
-      display: block;
-    }
-
-    .photo-caption {
-      padding: 13px 3px 0;
-      color: rgba(52, 34, 55, 0.74);
-      font-size: 1.02rem;
-      font-weight: 900;
-      line-height: 1.25;
-    }
-
-    .photo-secret {
-      display: grid;
-      grid-template-rows: 0fr;
-      margin: 0;
-      color: rgba(255, 79, 143, 0.78);
-      font-size: 0.92rem;
-      font-weight: 900;
-      line-height: 1.36;
-      transition: grid-template-rows 260ms ease, margin 260ms ease;
-    }
-
-    .photo-secret span {
-      overflow: hidden;
-    }
-
-    .photo-card.is-loved .photo-secret {
-      grid-template-rows: 1fr;
-      margin-top: 8px;
-    }
-
-    .memory-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .memory-card,
-    .quote-card,
-    .music-panel,
-    .final-panel,
-    .confession-card,
-    .answer-card {
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.52);
-      box-shadow: 0 16px 42px rgba(154, 80, 129, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.64);
-      -webkit-backdrop-filter: blur(18px) saturate(1.14);
-      backdrop-filter: blur(18px) saturate(1.14);
-    }
-
-    .memory-card {
-      padding: 18px;
-    }
-
-    .memory-card h3 {
-      font-family: "Nunito", system-ui, sans-serif;
-      font-size: 1rem;
-      font-weight: 900;
-    }
-
-    .memory-card p {
-      margin: 8px 0 0;
-      color: var(--soft-ink);
-      font-weight: 700;
-      line-height: 1.45;
-    }
-
-    .quote-card {
-      padding: 22px;
-    }
-
-    .quote-card p {
-      margin: 0;
-      font-family: "Playfair Display", Georgia, serif;
-      color: var(--plum);
-      font-size: clamp(1.35rem, 6vw, 1.8rem);
-      font-weight: 800;
-      line-height: 1.18;
-      text-wrap: balance;
-    }
-
-    .quote-card span {
-      display: block;
-      margin-top: 12px;
-      color: rgba(77, 47, 97, 0.62);
-      font-size: 0.92rem;
-      font-weight: 900;
-    }
-
-    .music-panel {
-      display: grid;
-      gap: 14px;
-      padding: 18px;
-    }
-
-    .surprise-spots,
-    .blush-card {
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.54);
-      box-shadow: 0 16px 42px rgba(154, 80, 129, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.64);
-      -webkit-backdrop-filter: blur(18px) saturate(1.16);
-      backdrop-filter: blur(18px) saturate(1.16);
-    }
-
-    .surprise-spots {
-      padding: 18px;
-    }
-
-    .spots-intro {
-      margin: 0 0 14px;
-      color: rgba(52, 34, 55, 0.76);
-      font-size: 0.98rem;
-      font-weight: 900;
-      line-height: 1.42;
-    }
-
-    .spot-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .spot-button {
-      position: relative;
-      min-height: 72px;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.76);
-      border-radius: 20px;
-      color: rgba(77, 47, 97, 0.8);
-      font-size: 0.94rem;
-      font-weight: 900;
-      line-height: 1.2;
-      background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(255, 235, 244, 0.62)),
-        radial-gradient(circle at 80% 12%, rgba(255, 79, 143, 0.16), transparent 38%);
-      box-shadow: 0 12px 26px rgba(154, 80, 129, 0.1);
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
-    }
-
-    .spot-button span {
-      display: block;
-      margin-bottom: 5px;
-      color: rgba(255, 79, 143, 0.88);
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    .spot-button.is-found,
-    .spot-button:active {
-      transform: translateY(-2px) rotate(-1deg);
-      box-shadow: 0 16px 32px rgba(255, 79, 143, 0.16);
-    }
-
-    .spot-button.is-found {
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f8f, #ff8fb6 56%, #b98bed);
-    }
-
-    .spot-button.is-found span {
-      color: #fff;
-    }
-
-    .spot-reveal {
-      margin-top: 14px;
-      padding: 15px;
-      border: 1px dashed rgba(255, 79, 143, 0.34);
-      border-radius: 22px;
-      background: rgba(255, 248, 252, 0.74);
-      transform: translateZ(0);
-    }
-
-    .spot-reveal.pop {
-      animation: popText 340ms ease;
-    }
-
-    .spot-reveal-tag {
-      display: inline-flex;
-      margin-bottom: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      color: #fff;
-      font-size: 0.78rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #ff4f8f, #ffb37e);
-    }
-
-    .spot-reveal p {
-      margin: 0;
-      color: rgba(52, 34, 55, 0.78);
-      font-size: 1.02rem;
-      font-weight: 900;
-      line-height: 1.42;
-    }
-
-    .blush-card {
-      padding: 18px;
-    }
-
-    .blush-head {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .blush-head h3 {
-      font-family: "Nunito", system-ui, sans-serif;
-      font-size: 1.08rem;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-
-    .blush-head span {
-      flex: 0 0 auto;
-      min-width: 58px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      color: #fff;
-      font-size: 0.96rem;
-      font-weight: 900;
-      text-align: center;
-      background: linear-gradient(135deg, #ff4f8f, #9c6ade);
-      box-shadow: 0 12px 24px rgba(255, 79, 143, 0.16);
-    }
-
-    .meter-shell {
-      overflow: hidden;
-      height: 16px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
-      box-shadow: inset 0 1px 5px rgba(77, 47, 97, 0.12);
-    }
-
-    .meter-fill {
-      width: 12%;
       height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #ff4f8f, #ffb37e, #9c6ade);
-      box-shadow: 0 0 18px rgba(255, 79, 143, 0.32);
-      transition: width 360ms cubic-bezier(0.2, 0.82, 0.24, 1);
+      object-fit: cover;
+      transform: scale(1.04);
     }
 
-    .blush-text {
-      min-height: 42px;
-      margin: 13px 0 14px;
-      color: rgba(52, 34, 55, 0.74);
-      font-size: 0.98rem;
-      font-weight: 900;
-      line-height: 1.4;
-    }
+    .tile-0 { grid-column: 1 / 3; grid-row: 1 / 3; }
+    .tile-1 { grid-column: 3 / 5; grid-row: 1 / 3; }
+    .tile-2 { grid-column: 1 / 5; grid-row: 3 / 5; }
+    .tile-3 { grid-column: 1 / 3; grid-row: 5 / 7; }
+    .tile-4 { grid-column: 3 / 5; grid-row: 5 / 7; }
+    .tile-5 { grid-column: 2 / 4; grid-row: 7 / 9; }
 
-    .blush-button {
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f8f, #ff91b7 48%, #ffb37e);
-      box-shadow: 0 16px 30px rgba(255, 79, 143, 0.2);
-    }
-
-    .music-copy {
-      margin: 0;
-      color: var(--soft-ink);
-      font-size: 0.96rem;
-      font-weight: 800;
-      line-height: 1.42;
-    }
-
-    .music-button {
-      color: #fff;
-      background: linear-gradient(135deg, #9c6ade, #ff7eae 55%, #ffb37e);
-      box-shadow: 0 16px 34px rgba(156, 106, 222, 0.2);
-    }
-
-    .music-status {
-      min-height: 20px;
-      margin: 0;
-      color: rgba(77, 47, 97, 0.63);
-      font-size: 0.9rem;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .final-panel {
-      margin-top: 18px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .final-panel h2 {
-      font-size: clamp(1.85rem, 8vw, 2.6rem);
-      line-height: 1.02;
-    }
-
-    .final-panel p {
-      margin: 12px auto 18px;
-      color: var(--soft-ink);
-      font-weight: 800;
-      line-height: 1.48;
-    }
-
-    .confession-card {
-      display: none;
-      margin-top: 14px;
-      padding: 22px;
-      text-align: left;
-      animation: softIn 420ms ease both;
-    }
-
-    .confession-card.show {
-      display: block;
-    }
-
-    .confession-card .message {
-      margin-top: 0;
-    }
-
-    .choice-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .choice-button:first-child {
-      color: #fff;
-      background: linear-gradient(135deg, #ff4f8f, #ff91b7);
-      box-shadow: 0 16px 30px rgba(255, 79, 143, 0.22);
-    }
-
-    .choice-button:last-child {
-      color: var(--plum);
-      background: rgba(255, 255, 255, 0.58);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72);
-    }
-
-    .answer-card {
-      display: none;
-      margin-top: 14px;
-      padding: 18px;
-      color: rgba(52, 34, 55, 0.78);
-      font-size: 1rem;
-      font-weight: 900;
-      line-height: 1.45;
-      text-align: center;
-      animation: softIn 360ms ease both;
-    }
-
-    .answer-card.show {
-      display: block;
-    }
-
-    .footer-note {
-      margin: 22px auto 0;
-      color: rgba(77, 47, 97, 0.62);
-      font-size: 0.92rem;
-      font-weight: 800;
-      line-height: 1.45;
-      text-align: center;
+    .note-sheet {
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 80;
+      padding:
+        18px
+        max(18px, var(--safe-right))
+        calc(18px + var(--safe-bottom))
+        max(18px, var(--safe-left));
+      animation: sheetIn 260ms cubic-bezier(0.2, 0.82, 0.22, 1) both;
     }
 
     .reveal-pop {
       opacity: 0;
       transform: translateY(18px) scale(0.985);
-      transition: opacity 520ms ease, transform 520ms cubic-bezier(0.2, 0.82, 0.22, 1);
+      transition: opacity 540ms ease, transform 540ms cubic-bezier(0.2, 0.82, 0.22, 1);
     }
 
     .reveal-pop.is-visible {
@@ -1177,256 +363,55 @@
       transform: translateY(0) scale(1);
     }
 
-    .float-layer,
-    .particle-layer {
-      position: fixed;
-      inset: 0;
-      z-index: 3;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .float-layer {
-      z-index: 0;
-    }
-
-    .float-heart {
-      position: absolute;
-      left: var(--x);
-      bottom: -44px;
-      color: rgba(255, 79, 143, 0.32);
-      font-size: var(--s);
-      filter: drop-shadow(0 8px 18px rgba(255, 79, 143, 0.16));
-      animation: floatUp var(--d) linear infinite;
-      animation-delay: var(--delay);
-      user-select: none;
-      -webkit-user-select: none;
-      will-change: transform, opacity;
-    }
-
-    .particle {
-      position: fixed;
-      left: var(--left);
-      top: var(--top);
-      z-index: 99;
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-      will-change: transform, opacity;
-    }
-
-    .particle.heart {
-      color: var(--color);
-      font-size: var(--size);
-      animation: burstHeart 1100ms ease-out forwards;
-      filter: drop-shadow(0 8px 18px rgba(255, 79, 143, 0.2));
-    }
-
-    .particle.confetti {
-      width: 8px;
-      height: 13px;
-      border-radius: 3px;
-      background: var(--color);
-      animation: confettiFall var(--duration) ease-out forwards;
-      transform: rotate(var(--rot));
-    }
-
-    .cute-toast {
-      position: fixed;
-      right: max(16px, var(--safe-right));
-      bottom: calc(18px + var(--safe-bottom));
-      left: max(16px, var(--safe-left));
-      z-index: 120;
-      width: min(calc(100% - 32px), 420px);
-      margin: 0 auto;
-      padding: 13px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.76);
-      border-radius: 999px;
-      color: rgba(77, 47, 97, 0.88);
-      font-size: 0.98rem;
-      font-weight: 900;
-      line-height: 1.22;
-      text-align: center;
-      pointer-events: none;
-      background: rgba(255, 255, 255, 0.78);
-      box-shadow: 0 18px 46px rgba(154, 80, 129, 0.2);
-      -webkit-backdrop-filter: blur(18px) saturate(1.18);
-      backdrop-filter: blur(18px) saturate(1.18);
-      animation: toastIn 2300ms ease forwards;
+    @keyframes auroraMove {
+      from { transform: translate3d(-3%, -2%, 0) rotate(-4deg) scale(1); }
+      to { transform: translate3d(4%, 3%, 0) rotate(5deg) scale(1.06); }
     }
 
     @keyframes floatUp {
-      0% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0) rotate(0deg);
-      }
-      12% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translate3d(var(--drift), -112vh, 0) rotate(26deg);
-      }
+      0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
+      12% { opacity: 1; }
+      100% { opacity: 0; transform: translate3d(var(--drift), -112vh, 0) rotate(26deg); }
+    }
+
+    @keyframes buttonShine {
+      0%, 42% { transform: translateX(-110%); }
+      64%, 100% { transform: translateX(110%); }
+    }
+
+    @keyframes screenEnter {
+      from { opacity: 0; transform: translateY(14px) scale(0.986); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes tapPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 18px 36px rgba(255, 79, 154, 0.22); }
+      50% { transform: scale(1.025); box-shadow: 0 26px 52px rgba(255, 79, 154, 0.34); }
     }
 
     @keyframes envelopeFloat {
-      0%,
-      100% {
-        transform: translateY(0) rotate(-0.6deg);
-      }
-      50% {
-        transform: translateY(-8px) rotate(0.6deg);
-      }
-    }
-
-    @keyframes shineSweep {
-      0% {
-        opacity: 0;
-        transform: translateX(-70%);
-      }
-      24% {
-        opacity: 0.75;
-      }
-      100% {
-        opacity: 0;
-        transform: translateX(78%);
-      }
+      0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+      50% { transform: translateY(-8px) rotate(0.6deg); }
     }
 
     @keyframes heartGlow {
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 0.7;
-      }
-      50% {
-        transform: scale(1.025);
-        opacity: 0.9;
-      }
+      0%, 100% { opacity: 0.72; transform: scale(1); }
+      50% { opacity: 0.98; transform: scale(1.025); }
     }
 
     @keyframes photoFloat {
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) rotate(var(--tilt));
-      }
-      50% {
-        transform: translate3d(0, -8px, 0) rotate(var(--tilt-soft));
-      }
+      0%, 100% { transform: translateY(0) rotate(var(--tilt)); }
+      50% { transform: translateY(-7px) rotate(var(--tilt-soft)); }
     }
 
-    @keyframes tinyBounce {
-      0%,
-      100% {
-        transform: translateY(0) rotate(-2deg);
-      }
-      50% {
-        transform: translateY(-6px) rotate(2deg);
-      }
+    @keyframes meterGlow {
+      0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 79, 154, 0)); }
+      50% { filter: drop-shadow(0 0 18px rgba(255, 79, 154, 0.46)); }
     }
 
-    @keyframes burstHeart {
-      0% {
-        opacity: 0;
-        transform: translate3d(-50%, -50%, 0) scale(0.52) rotate(0deg);
-      }
-      18% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translate3d(calc(-50% + var(--dx)), calc(-50% + var(--dy)), 0) scale(1.18) rotate(var(--rotate));
-      }
-    }
-
-    @keyframes confettiFall {
-      0% {
-        opacity: 1;
-        transform: translate3d(0, -12px, 0) rotate(var(--rot));
-      }
-      100% {
-        opacity: 0;
-        transform: translate3d(var(--dx), var(--dy), 0) rotate(calc(var(--rot) + 420deg));
-      }
-    }
-
-    @keyframes dotPulse {
-      0%,
-      100% {
-        transform: translateY(0) scale(0.92);
-        opacity: 0.58;
-      }
-      50% {
-        transform: translateY(-6px) scale(1.08);
-        opacity: 1;
-      }
-    }
-
-    @keyframes popText {
-      0% {
-        transform: translateY(4px) scale(0.96);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-    }
-
-    @keyframes softIn {
-      0% {
-        opacity: 0;
-        transform: translateY(12px) scale(0.98);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes toastIn {
-      0% {
-        opacity: 0;
-        transform: translateY(16px) scale(0.96);
-      }
-      12%,
-      82% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-      }
-    }
-
-    @media (min-width: 560px) {
-      .intro-actions,
-      .choice-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .intro-actions {
-        min-height: 58px;
-      }
-
-      .gallery {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .photo-card img {
-        aspect-ratio: 0.82 / 1;
-      }
-
-      .spot-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .memory-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    @keyframes sheetIn {
+      from { opacity: 0; transform: translateY(26px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1441,196 +426,55 @@
     }
   </style>
 </head>
+
 <body>
-  <main class="app" id="app">
-    <div class="float-layer" aria-hidden="true">
-      <span class="float-heart" style="--x: 8%; --s: 1.05rem; --d: 12s; --delay: -1s; --drift: 22px;">♥</span>
-      <span class="float-heart" style="--x: 21%; --s: 0.82rem; --d: 14s; --delay: -6s; --drift: -18px;">✦</span>
-      <span class="float-heart" style="--x: 36%; --s: 1.18rem; --d: 15s; --delay: -3s; --drift: 34px;">♥</span>
-      <span class="float-heart" style="--x: 52%; --s: 0.95rem; --d: 13s; --delay: -9s; --drift: -26px;">♡</span>
-      <span class="float-heart" style="--x: 67%; --s: 1.2rem; --d: 16s; --delay: -5s; --drift: 20px;">♥</span>
-      <span class="float-heart" style="--x: 81%; --s: 0.86rem; --d: 12s; --delay: -8s; --drift: -22px;">✧</span>
-      <span class="float-heart" style="--x: 92%; --s: 1.05rem; --d: 15s; --delay: -2s; --drift: -34px;">♡</span>
-    </div>
+  <div id="root"></div>
 
-    <div class="particle-layer" id="particleLayer" aria-hidden="true"></div>
+  <script type="text/babel">
+    const { useEffect, useMemo, useRef, useState } = React;
 
-    <section class="screen center-screen active" id="introScreen">
-      <div class="stack">
-        <div class="glass-card intro-card">
-          <p class="kicker">tiny serious announcement</p>
-          <h1 class="intro-title">I have something important to tell you...</h1>
-          <p class="intro-subtitle">Tapi kena tekan button dulu 😌 jangan buat-buat cool.</p>
-
-          <div class="intro-actions">
-            <button class="primary-button" id="tellMeBtn" type="button">Tell me ❤️</button>
-            <button class="secondary-button no-button" id="noThanksBtn" type="button">No thanks 🙄</button>
-          </div>
-
-          <p class="tease-line" id="teaseLine" aria-live="polite"></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen center-screen" id="loadingScreen" aria-live="polite">
-      <div class="stack">
-        <div class="glass-card loading-card">
-          <p class="kicker">very official test</p>
-          <h2 class="loading-title">Checking if you deserve this surprise...</h2>
-          <p class="loading-text">Scanning smile level... hmm suspiciously cute.</p>
-          <div class="progress-shell" aria-hidden="true">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <div class="loading-dots" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen center-screen" id="envelopeScreen">
-      <div class="stack envelope-wrap">
-        <h2 class="envelope-title">Open this little surprise</h2>
-        <p class="envelope-subtitle">One tap. Lepas tu jangan kata I tak warning kalau jadi sweet sangat.</p>
-        <button class="envelope-button" id="envelopeBtn" type="button" aria-label="Open this little surprise">
-          <span class="envelope" id="envelope">
-            <span class="envelope-shine"></span>
-            <span class="envelope-seal">♥</span>
-            <span class="letter"><span>For you 💌</span></span>
-          </span>
-        </button>
-        <p class="tap-hint">Tap the envelope</p>
-      </div>
-    </section>
-
-    <section class="screen surprise-screen" id="surpriseScreen">
-      <div class="page">
-        <article class="glass-card hero-panel">
-          <p class="kicker">made with nervous confidence</p>
-          <h1 class="surprise-title">For You, <span data-recipient></span> ✨</h1>
-          <p class="from-line">From <span data-sender></span></p>
-          <div class="message" id="mainMessage"></div>
-        </article>
-
-        <section class="sweet-strip" aria-label="Small surprise hint">
-          <span>psst</span>
-          <p>Scroll slow-slow okay... ada banyak benda comel tersorok untuk awak.</p>
-        </section>
-
-        <h2 class="section-title">Love gallery</h2>
-        <p class="section-helper">Tap each photo sikit. Dia ada secret note kecil.</p>
-        <div class="gallery" id="gallery"></div>
-
-        <h2 class="section-title">Tiny reasons</h2>
-        <div class="memory-grid">
-          <article class="memory-card">
-            <h3>Your kind of smile</h3>
-            <p>Yang buat orang rasa, eeee kenapa comel sangat ni?</p>
-          </article>
-          <article class="memory-card">
-            <h3>Small moments</h3>
-            <p>The random little things about you somehow stay rent-free in my head.</p>
-          </article>
-          <article class="memory-card">
-            <h3>This page</h3>
-            <p>A tiny digital bouquet, because feelings as pixels pun boleh jadi sweet.</p>
-          </article>
-        </div>
-
-        <h2 class="section-title">Cute quote</h2>
-        <article class="quote-card">
-          <p>"Some people make the world feel gentler just by being in it."</p>
-          <span>Yes, awak lah tu. Jangan buat-buat tak tahu.</span>
-        </article>
-
-        <h2 class="section-title">Surprise spots</h2>
-        <section class="surprise-spots">
-          <p class="spots-intro">Tap satu-satu. Kalau tersenyum, kira website ni menang.</p>
-          <div class="spot-grid">
-            <button class="spot-button" type="button" data-spot="0"><span>01</span>tekan sini</button>
-            <button class="spot-button" type="button" data-spot="1"><span>02</span>secret sikit</button>
-            <button class="spot-button" type="button" data-spot="2"><span>03</span>jangan malu</button>
-            <button class="spot-button" type="button" data-spot="3"><span>04</span>awak ni haa</button>
-            <button class="spot-button" type="button" data-spot="4"><span>05</span>one more</button>
-            <button class="spot-button" type="button" data-spot="5"><span>06</span>last-last</button>
-          </div>
-          <div class="spot-reveal" id="spotReveal" aria-live="polite">
-            <span class="spot-reveal-tag">secret note</span>
-            <p id="spotRevealText">Pick a spot. I promise it is not scary, just a little sweet.</p>
-          </div>
-        </section>
-
-        <h2 class="section-title">Blush meter</h2>
-        <section class="blush-card">
-          <div class="blush-head">
-            <h3>Current level of "eeee awak ni haa"</h3>
-            <span id="blushPercent">12%</span>
-          </div>
-          <div class="meter-shell" aria-hidden="true">
-            <div class="meter-fill" id="blushFill"></div>
-          </div>
-          <p class="blush-text" id="blushText">Tap kalau awak senyum sikit. Jangan tipu, I can sense it.</p>
-          <button class="primary-button blush-button" id="blushBtn" type="button">I smiled sikit 😳</button>
-        </section>
-
-        <h2 class="section-title">Background music</h2>
-        <section class="music-panel">
-          <p class="music-copy">Music waits for your tap because iPhone Safari likes consent too.</p>
-          <button class="music-button" id="musicBtn" type="button">Play Music 🎵</button>
-          <p class="music-status" id="musicStatus" aria-live="polite"></p>
-          <audio id="bgMusic" preload="none" loop playsinline></audio>
-        </section>
-
-        <section class="final-panel">
-          <h2>One tiny thing left...</h2>
-          <p>Okay this part macam nervous sikit. Jangan gelak kuat sangat.</p>
-          <button class="primary-button" id="finalBtn" type="button">One more thing...</button>
-
-          <article class="confession-card" id="confessionCard">
-            <div class="message" id="finalConfession"></div>
-            <div class="choice-grid">
-              <button class="choice-button" id="awwBtn" type="button">Aww okay ❤️</button>
-              <button class="choice-button" id="timeBtn" type="button">I need time 😭</button>
-            </div>
-          </article>
-
-          <div class="answer-card" id="answerCard" aria-live="polite"></div>
-        </section>
-
-        <p class="footer-note">Made to be opened on a phone, smiled at quietly, and maybe reread later.</p>
-      </div>
-    </section>
-  </main>
-
-  <script>
     /*
       EDIT THIS PART ONLY:
-      Change the names, messages, image links, and music link below.
+      Change the names, messages, image links, notes, and music link below.
     */
-    const recipientName = "Sayang";
-    const senderName = "Me";
-    const mainMessage = `I don't know how to say this perfectly, but I just want you to know...
+    const CONFIG = {
+      recipientName: "Sayang",
+      senderName: "Me",
+      mainMessage: `I don't know how to say this perfectly, but I just want you to know...
 
 You are one of the reasons my ordinary days feel a little more special.
 
-I made this little page just for you, because you deserve something sweet today.`;
-    const finalConfession = `Actually... I like you.
+I made this little page just for you, because you deserve something sweet today.`,
+      finalConfession: `Actually... I like you.
 
 Not because of one big reason,
-but because of all the little things about you.`;
-    const imageLinks = [
-      "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80"
-    ];
-    const musicLink = "";
+but because of all the little things about you.`,
+      imageLinks: [
+        "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=80"
+      ],
+      musicLink: "",
+      galleryNotes: [
+        "Secret note: this photo is just an excuse to say awak comel.",
+        "Tiny confession: I hope this made your heart do a small jump.",
+        "Soft reminder: you deserve all the sweet things, including this one.",
+        "Eeeee awak ni haa. This little moment feels extra special because it is for you.",
+        "If I could put this feeling in a frame, it would look exactly this soft.",
+        "Last gallery note: jangan buat-buat cool. I know this is cute."
+      ]
+    };
 
-    const gallerySecrets = [
-      "Secret note: this photo is just an excuse to say awak comel.",
-      "Tiny confession: I hope this made your heart do a small jump.",
-      "Soft reminder: you deserve all the sweet things, including this one."
+    const teaseMessages = [
+      "Eh eh jangan lari 😭",
+      "Cuba lagi hehe",
+      "Tak boleh reject awal-awal 😤",
+      "Button ni malu sikit",
+      "No option unavailable 😌",
+      "Ala tekan yang satu lagi lah 😭"
     ];
 
     const spotMessages = [
@@ -1650,519 +494,616 @@ but because of all the little things about you.`;
       "Full blush. Website dah surrender. You win."
     ];
 
-    const screens = {
-      intro: document.getElementById("introScreen"),
-      loading: document.getElementById("loadingScreen"),
-      envelope: document.getElementById("envelopeScreen"),
-      surprise: document.getElementById("surpriseScreen")
-    };
-
-    const tellMeBtn = document.getElementById("tellMeBtn");
-    const noThanksBtn = document.getElementById("noThanksBtn");
-    const teaseLine = document.getElementById("teaseLine");
-    const progressFill = document.getElementById("progressFill");
-    const envelopeBtn = document.getElementById("envelopeBtn");
-    const envelope = document.getElementById("envelope");
-    const gallery = document.getElementById("gallery");
-    const mainMessageEl = document.getElementById("mainMessage");
-    const finalConfessionEl = document.getElementById("finalConfession");
-    const finalBtn = document.getElementById("finalBtn");
-    const confessionCard = document.getElementById("confessionCard");
-    const awwBtn = document.getElementById("awwBtn");
-    const timeBtn = document.getElementById("timeBtn");
-    const answerCard = document.getElementById("answerCard");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicStatus = document.getElementById("musicStatus");
-    const bgMusic = document.getElementById("bgMusic");
-    const particleLayer = document.getElementById("particleLayer");
-    const spotReveal = document.getElementById("spotReveal");
-    const spotRevealText = document.getElementById("spotRevealText");
-    const spotButtons = document.querySelectorAll(".spot-button");
-    const blushBtn = document.getElementById("blushBtn");
-    const blushFill = document.getElementById("blushFill");
-    const blushPercent = document.getElementById("blushPercent");
-    const blushText = document.getElementById("blushText");
-
-    const teaseMessages = [
-      "Eh eh jangan lari 😭",
-      "Cuba lagi hehe",
-      "Tak boleh reject awal-awal 😤",
-      "Button ni malu sikit",
-      "No option unavailable 😌",
-      "Ala tekan yang satu lagi lah 😭"
-    ];
-
-    let noAttempts = 0;
-    let noButtonFixed = false;
-    let lastRunAt = 0;
-    let lastTouchRunAt = 0;
-    let envelopeOpened = false;
-    let blushLevel = 12;
-    const foundSpots = new Set();
-
-    function setAppHeight() {
-      const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      document.documentElement.style.setProperty("--app-height", `${viewportHeight}px`);
+    function useAppHeight() {
+      useEffect(() => {
+        const setHeight = () => {
+          const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+          document.documentElement.style.setProperty("--app-height", `${height}px`);
+        };
+        setHeight();
+        window.addEventListener("resize", setHeight);
+        window.visualViewport?.addEventListener("resize", setHeight);
+        window.visualViewport?.addEventListener("scroll", setHeight);
+        return () => {
+          window.removeEventListener("resize", setHeight);
+          window.visualViewport?.removeEventListener("resize", setHeight);
+          window.visualViewport?.removeEventListener("scroll", setHeight);
+        };
+      }, []);
     }
 
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function textToParagraphs(value) {
-      return escapeHtml(value)
-        .trim()
-        .split(/\n\s*\n/)
-        .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
-        .join("");
-    }
-
-    function showScreen(name) {
-      Object.values(screens).forEach((screen) => screen.classList.remove("active"));
-      screens[name].classList.add("active");
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" in document.documentElement.style ? "instant" : "auto" });
+    function useRevealObserver(screen) {
+      useEffect(() => {
+        if (screen !== "surprise") return;
+        const items = document.querySelectorAll(".reveal-pop");
+        if (!("IntersectionObserver" in window)) {
+          items.forEach((item) => item.classList.add("is-visible"));
+          return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+        items.forEach((item, index) => {
+          item.style.transitionDelay = `${Math.min(index * 35, 220)}ms`;
+          observer.observe(item);
+        });
+        return () => observer.disconnect();
+      }, [screen]);
     }
 
     function vibrate(pattern = 18) {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(pattern);
-      }
+      if ("vibrate" in navigator) navigator.vibrate(pattern);
     }
 
-    function randomBetween(min, max) {
-      if (max <= min) return min;
-      return Math.random() * (max - min) + min;
-    }
-
-    function clamp(value, min, max) {
-      return Math.min(Math.max(value, min), max);
-    }
-
-    function viewportBox() {
-      const vv = window.visualViewport;
-      return {
-        left: vv ? vv.offsetLeft : 0,
-        top: vv ? vv.offsetTop : 0,
-        width: vv ? vv.width : window.innerWidth,
-        height: vv ? vv.height : window.innerHeight
-      };
-    }
-
-    function keepButtonInViewport(button, nextLeft, nextTop) {
-      const box = viewportBox();
-      const rect = button.getBoundingClientRect();
-      const margin = 14;
-      const minLeft = box.left + margin;
-      const minTop = box.top + margin;
-      const maxLeft = box.left + box.width - rect.width - margin;
-      const maxTop = box.top + box.height - rect.height - margin;
-
-      return {
-        left: clamp(nextLeft, minLeft, Math.max(minLeft, maxLeft)),
-        top: clamp(nextTop, minTop, Math.max(minTop, maxTop))
-      };
-    }
-
-    function setTeaseText(text) {
-      teaseLine.textContent = text;
-      teaseLine.classList.remove("pop");
-      void teaseLine.offsetWidth;
-      teaseLine.classList.add("pop");
-    }
-
-    function showCuteToast(text) {
-      document.querySelectorAll(".cute-toast").forEach((toast) => toast.remove());
-      const toast = document.createElement("div");
-      toast.className = "cute-toast";
-      toast.textContent = text;
-      document.body.appendChild(toast);
-      toast.addEventListener("animationend", () => toast.remove(), { once: true });
-    }
-
-    function shouldHandleRunAway(event) {
-      event = event || { type: "manual" };
-      const now = Date.now();
-
-      if (event.type === "touchstart") {
-        lastTouchRunAt = now;
-      }
-
-      if (event.type === "pointerdown" && event.pointerType === "touch") {
-        if (now - lastTouchRunAt < 700) return false;
-        lastTouchRunAt = now;
-      }
-
-      if (event.type === "click" && now - lastRunAt < 700) return false;
-      if (now - lastRunAt < 430) return false;
-
-      lastRunAt = now;
-      return true;
-    }
-
-    function runAway(event) {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-
-      if (noThanksBtn.classList.contains("vanish") || !shouldHandleRunAway(event)) return;
-
-      noAttempts += 1;
-      vibrate(22);
-      setTeaseText(teaseMessages[(noAttempts - 1) % teaseMessages.length]);
-
-      if (!noButtonFixed) {
-        const rect = noThanksBtn.getBoundingClientRect();
-        noThanksBtn.style.position = "fixed";
-        noThanksBtn.style.left = `${rect.left}px`;
-        noThanksBtn.style.top = `${rect.top}px`;
-        noThanksBtn.style.width = `${rect.width}px`;
-        noThanksBtn.style.zIndex = "40";
-        noThanksBtn.style.margin = "0";
-        noButtonFixed = true;
-      }
-
-      if (noAttempts >= 5) {
-        noThanksBtn.classList.add("vanish");
-        setTimeout(() => {
-          noThanksBtn.hidden = true;
-          setTeaseText("Okay fine, no button retired 😌");
-        }, 300);
-        return;
-      }
-
-      const box = viewportBox();
-      const rect = noThanksBtn.getBoundingClientRect();
-      const margin = 18;
-      const maxLeft = box.left + box.width - rect.width - margin;
-      const maxTop = box.top + box.height - rect.height - margin;
-      let nextLeft = randomBetween(box.left + margin, Math.max(box.left + margin, maxLeft));
-      let nextTop = randomBetween(box.top + margin, Math.max(box.top + margin, maxTop));
-
-      const currentLeft = rect.left;
-      const currentTop = rect.top;
-      if (Math.abs(nextLeft - currentLeft) < 80) {
-        nextLeft = currentLeft < box.width / 2 ? maxLeft : box.left + margin;
-      }
-      if (Math.abs(nextTop - currentTop) < 70) {
-        nextTop = currentTop < box.height / 2 ? maxTop : box.top + margin;
-      }
-
-      const safePosition = keepButtonInViewport(noThanksBtn, nextLeft, nextTop);
-      noThanksBtn.style.left = `${safePosition.left}px`;
-      noThanksBtn.style.top = `${safePosition.top}px`;
-    }
-
-    function startLoading() {
-      vibrate(12);
-      showScreen("loading");
-      progressFill.style.transition = "none";
-      progressFill.style.width = "0%";
-      burstHearts(window.innerWidth / 2, window.innerHeight * 0.55, 12);
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          progressFill.style.transition = "width 3000ms cubic-bezier(0.18, 0.82, 0.22, 1)";
-          progressFill.style.width = "100%";
-        });
-      });
-
-      setTimeout(() => {
-        burstHearts(window.innerWidth / 2, window.innerHeight * 0.52, 12);
-        showScreen("envelope");
-      }, 3300);
-    }
-
-    function openEnvelope() {
-      if (envelopeOpened) return;
-      envelopeOpened = true;
-      vibrate([16, 38, 16]);
-      envelope.classList.add("open");
-      showCuteToast("Eeeee okay opening... nervous pulak 😳");
-      confettiBurst(window.innerWidth / 2, window.innerHeight * 0.42, 58);
-      burstHearts(window.innerWidth / 2, window.innerHeight * 0.44, 20);
-
-      setTimeout(() => {
-        document.querySelectorAll(".cute-toast").forEach((toast) => toast.remove());
-        showScreen("surprise");
-        confettiBurst(window.innerWidth / 2, 140, 40);
-        burstHearts(window.innerWidth / 2, 150, 12);
-      }, 1050);
-    }
-
-    function confettiBurst(x, y, count = 46) {
-      const colors = ["#ff4f8f", "#ffb37e", "#9c6ade", "#fff4a8", "#ffffff"];
-      for (let i = 0; i < count; i += 1) {
-        const piece = document.createElement("span");
-        const spread = randomBetween(-150, 150);
-        piece.className = "particle confetti";
-        piece.style.setProperty("--left", `${x}px`);
-        piece.style.setProperty("--top", `${y}px`);
-        piece.style.setProperty("--dx", `${spread}px`);
-        piece.style.setProperty("--dy", `${randomBetween(130, 360)}px`);
-        piece.style.setProperty("--rot", `${randomBetween(0, 360)}deg`);
-        piece.style.setProperty("--duration", `${randomBetween(900, 1500)}ms`);
-        piece.style.setProperty("--color", colors[i % colors.length]);
-        particleLayer.appendChild(piece);
-        piece.addEventListener("animationend", () => piece.remove(), { once: true });
-      }
-    }
-
-    function burstHearts(x, y, count = 14) {
-      const hearts = ["♥", "♡", "✦", "✧"];
-      const colors = ["#ff4f8f", "#ff7eae", "#9c6ade", "#ffb37e"];
-      for (let i = 0; i < count; i += 1) {
-        const heart = document.createElement("span");
-        const angle = randomBetween(0, Math.PI * 2);
-        const distance = randomBetween(70, 170);
-        heart.className = "particle heart";
-        heart.textContent = hearts[i % hearts.length];
-        heart.style.setProperty("--left", `${x}px`);
-        heart.style.setProperty("--top", `${y}px`);
-        heart.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
-        heart.style.setProperty("--dy", `${Math.sin(angle) * distance - 100}px`);
-        heart.style.setProperty("--rotate", `${randomBetween(-32, 32)}deg`);
-        heart.style.setProperty("--size", `${randomBetween(18, 30)}px`);
-        heart.style.setProperty("--color", colors[i % colors.length]);
-        particleLayer.appendChild(heart);
-        heart.addEventListener("animationend", () => heart.remove(), { once: true });
-      }
-    }
-
-    function renderGallery() {
-      const captions = ["photo ni macam love letter", "soft launch of feelings", "today's tiny romance"];
-      const collage = [
-        { x: "3%", y: "42px", w: "62%", tilt: "-7deg", soft: "-4deg", z: 2, delay: "-0.4s" },
-        { x: "39%", y: "36px", w: "58%", tilt: "7deg", soft: "4deg", z: 3, delay: "-1.2s" },
-        { x: "17%", y: "245px", w: "69%", tilt: "-1deg", soft: "1.5deg", z: 4, delay: "-2s" }
-      ];
-      gallery.innerHTML = "";
-
-      imageLinks.slice(0, 3).forEach((src, index) => {
-        const position = collage[index] || collage[0];
-        const card = document.createElement("button");
-        card.className = "photo-card";
-        card.type = "button";
-        card.style.setProperty("--x", position.x);
-        card.style.setProperty("--y", position.y);
-        card.style.setProperty("--w", position.w);
-        card.style.setProperty("--z", position.z);
-        card.style.setProperty("--tilt", position.tilt);
-        card.style.setProperty("--tilt-soft", position.soft);
-        card.style.setProperty("--delay", position.delay);
-        card.setAttribute("aria-label", `Open secret note for photo ${index + 1}`);
-
-        const frame = document.createElement("span");
-        frame.className = "photo-frame";
-
-        if (src && src.trim()) {
-          const img = document.createElement("img");
-          img.src = src.trim();
-          img.alt = `Romantic memory ${index + 1}`;
-          img.loading = "lazy";
-          frame.appendChild(img);
-        } else {
-          const placeholder = document.createElement("div");
-          placeholder.className = "photo-placeholder";
-          frame.appendChild(placeholder);
-        }
-
-        card.appendChild(frame);
-
-        const caption = document.createElement("div");
-        caption.className = "photo-caption";
-        caption.textContent = captions[index] || "sweet little photo";
-        card.appendChild(caption);
-
-        const secret = document.createElement("p");
-        secret.className = "photo-secret";
-        secret.innerHTML = `<span>${escapeHtml(gallerySecrets[index] || "Secret note: this one is for you.")}</span>`;
-        card.appendChild(secret);
-
-        card.addEventListener("click", () => {
-          card.classList.add("is-loved");
-          const rect = card.getBoundingClientRect();
-          vibrate(12);
-          burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 10);
-          showCuteToast(index === 0 ? "Haa nampak tak? ada secret 😌" : "Alaaa cute kan this one?");
-        });
-
-        gallery.appendChild(card);
+    function burstConfetti() {
+      if (!window.confetti) return;
+      window.confetti({
+        particleCount: 90,
+        spread: 72,
+        origin: { y: 0.58 },
+        colors: ["#ff4f9a", "#ff9bc3", "#1d6fe3", "#ffffff", "#ffe3f0"]
       });
     }
 
-    function revealSpot(button) {
-      const index = Number(button.dataset.spot || 0);
-      foundSpots.add(index);
-      spotButtons.forEach((item) => item.classList.remove("active"));
-      button.classList.add("is-found", "active");
-      spotRevealText.textContent = spotMessages[index] || "Surprise: you are cute.";
-      spotReveal.classList.remove("pop");
-      void spotReveal.offsetWidth;
-      spotReveal.classList.add("pop");
-
-      const rect = button.getBoundingClientRect();
-      vibrate([10, 24, 10]);
-      burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
-      showCuteToast(foundSpots.size >= spotButtons.length ? "Okay semua secret dah jumpa. Awak ni haa ❤️" : "Eeeee awak tekan juga 😳");
-
-      if (foundSpots.size >= spotButtons.length) {
-        setTimeout(() => confettiBurst(window.innerWidth / 2, window.innerHeight * 0.52, 38), 180);
-      }
+    function heartConfetti() {
+      if (!window.confetti) return;
+      window.confetti({
+        particleCount: 42,
+        spread: 60,
+        scalar: 1.3,
+        shapes: ["circle", "star"],
+        origin: { y: 0.72 },
+        colors: ["#ff4f9a", "#ff9bc3", "#ffffff"]
+      });
     }
 
-    function setupRevealAnimations() {
-      const revealItems = document.querySelectorAll(
-        ".sweet-strip, .section-title, .section-helper, .gallery, .memory-card, .quote-card, .surprise-spots, .blush-card, .music-panel, .final-panel, .footer-note"
+    function paragraphs(text) {
+      return text.trim().split(/\n\s*\n/);
+    }
+
+    function Screen({ children, center = false }) {
+      return (
+        <section className={`screen-enter relative z-10 min-h-[var(--app-height)] w-full ${center ? "grid place-items-center" : ""}`}>
+          {children}
+        </section>
       );
-
-      revealItems.forEach((item, index) => {
-        item.classList.add("reveal-pop");
-        item.style.transitionDelay = `${Math.min(index * 35, 220)}ms`;
-      });
-
-      if (!("IntersectionObserver" in window)) {
-        revealItems.forEach((item) => item.classList.add("is-visible"));
-        return;
-      }
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-
-      revealItems.forEach((item) => observer.observe(item));
     }
 
-    function updateBlushMeter() {
-      blushFill.style.width = `${blushLevel}%`;
-      blushPercent.textContent = `${blushLevel}%`;
+    function PrimaryButton({ children, className = "", ...props }) {
+      return (
+        <button
+          {...props}
+          className={`shine-button min-h-[56px] w-full rounded-[22px] bg-gradient-to-r from-rose via-blush to-blue-500 px-5 py-4 text-base font-black text-white shadow-[0_18px_42px_rgba(255,79,154,.28)] active:scale-[.975] transition ${className}`}
+        >
+          {children}
+        </button>
+      );
     }
 
-    function increaseBlush() {
-      const nextIndex = Math.min(Math.floor(blushLevel / 22), blushMessages.length - 1);
-      blushText.textContent = blushMessages[nextIndex];
-      blushLevel = Math.min(100, blushLevel + 22);
-      updateBlushMeter();
-      vibrate(16);
-      showCuteToast(blushLevel >= 100 ? "Full blush. Aww okay lah 😭❤️" : "Hehe senyum detected.");
-      burstHearts(window.innerWidth / 2, window.innerHeight * 0.64, 12);
+    function IntroScreen({ onStart }) {
+      const [attempts, setAttempts] = useState(0);
+      const [tease, setTease] = useState("");
+      const [fixed, setFixed] = useState(false);
+      const [pos, setPos] = useState(null);
+      const [gone, setGone] = useState(false);
+      const noBtnRef = useRef(null);
+      const lastRunRef = useRef(0);
+      const lastTouchRef = useRef(0);
 
-      if (blushLevel >= 100) {
-        blushBtn.textContent = "Okay I am smiling 😭";
-        confettiBurst(window.innerWidth / 2, window.innerHeight * 0.5, 42);
-      }
-    }
+      const shouldHandle = (event) => {
+        const now = Date.now();
+        const type = event?.type || "manual";
+        const pointerType = event?.pointerType;
 
-    function setupMusic() {
-      const src = musicLink.trim();
-      if (!src) {
-        musicStatus.textContent = "Add a music link in the code when you're ready.";
-        return;
-      }
-
-      bgMusic.src = src;
-      bgMusic.volume = 0.72;
-      musicStatus.textContent = "Ready when you tap.";
-    }
-
-    async function toggleMusic() {
-      if (!musicLink.trim()) {
-        vibrate(10);
-        musicStatus.textContent = "Music link belum letak, but the mood is still here 🎵";
-        return;
-      }
-
-      try {
-        if (bgMusic.paused) {
-          await bgMusic.play();
-          musicBtn.textContent = "Pause Music ⏸";
-          musicStatus.textContent = "Now playing softly.";
-        } else {
-          bgMusic.pause();
-          musicBtn.textContent = "Play Music 🎵";
-          musicStatus.textContent = "Paused for now.";
+        if (type === "touchstart") lastTouchRef.current = now;
+        if (type === "pointerdown" && pointerType === "touch") {
+          if (now - lastTouchRef.current < 700) return false;
+          lastTouchRef.current = now;
         }
-      } catch (error) {
-        musicStatus.textContent = "Safari needs a direct tap, try once more.";
-      }
+        if (type === "click" && now - lastRunRef.current < 700) return false;
+        if (now - lastRunRef.current < 430) return false;
+
+        lastRunRef.current = now;
+        return true;
+      };
+
+      const runAway = (event) => {
+        event?.preventDefault?.();
+        event?.stopPropagation?.();
+        if (gone || !shouldHandle(event)) return;
+
+        const btn = noBtnRef.current;
+        if (!btn) return;
+        const nextAttempts = attempts + 1;
+        setAttempts(nextAttempts);
+        setTease(teaseMessages[(nextAttempts - 1) % teaseMessages.length]);
+        vibrate(22);
+
+        if (nextAttempts >= 5) {
+          setGone(true);
+          setTease("Okay fine, no button retired 😌");
+          return;
+        }
+
+        const vv = window.visualViewport;
+        const box = {
+          left: vv ? vv.offsetLeft : 0,
+          top: vv ? vv.offsetTop : 0,
+          width: vv ? vv.width : window.innerWidth,
+          height: vv ? vv.height : window.innerHeight
+        };
+        const rect = btn.getBoundingClientRect();
+        const margin = 18;
+        const maxLeft = box.left + box.width - rect.width - margin;
+        const maxTop = box.top + box.height - rect.height - margin;
+        const minLeft = box.left + margin;
+        const minTop = box.top + margin;
+        let left = Math.random() * (maxLeft - minLeft) + minLeft;
+        let top = Math.random() * (maxTop - minTop) + minTop;
+
+        if (Math.abs(left - rect.left) < 80) left = rect.left < box.width / 2 ? maxLeft : minLeft;
+        if (Math.abs(top - rect.top) < 70) top = rect.top < box.height / 2 ? maxTop : minTop;
+
+        setFixed(true);
+        setPos({
+          left: Math.min(Math.max(left, minLeft), Math.max(minLeft, maxLeft)),
+          top: Math.min(Math.max(top, minTop), Math.max(minTop, maxTop)),
+          width: rect.width
+        });
+      };
+
+      return (
+        <Screen center>
+          <div className="w-full max-w-[440px]">
+            <div className="glass rounded-[34px] p-7 text-center sm:p-9">
+              <p className="mx-auto mb-5 inline-flex min-h-[34px] items-center rounded-full border border-white/20 bg-white/10 px-4 text-sm font-black text-pink-100">
+                tiny serious announcement
+              </p>
+              <h1 className="font-display text-[clamp(2.4rem,11vw,3.8rem)] leading-[.96] text-white">
+                I have something important to tell you...
+              </h1>
+              <p className="mx-auto mt-5 max-w-[22rem] text-[1.05rem] font-extrabold leading-relaxed text-pink-50/80">
+                Tapi kena tekan button dulu 😌 jangan buat-buat cool.
+              </p>
+
+              <div className="mt-7 grid gap-3">
+                <PrimaryButton id="tellMeBtn" onClick={onStart}>Tell me ❤️</PrimaryButton>
+                {!gone && (
+                  <button
+                    id="noThanksBtn"
+                    ref={noBtnRef}
+                    type="button"
+                    onTouchStart={runAway}
+                    onPointerDown={runAway}
+                    onMouseEnter={runAway}
+                    onClick={runAway}
+                    style={fixed && pos ? { position: "fixed", left: pos.left, top: pos.top, width: pos.width, zIndex: 50 } : undefined}
+                    className="min-h-[56px] rounded-[22px] border border-white/20 bg-white/12 px-5 py-4 text-base font-black text-white shadow-[0_18px_42px_rgba(0,0,0,.18)] backdrop-blur-xl transition-[left,top,transform,opacity] duration-300 active:scale-[.975]"
+                  >
+                    No thanks 🙄
+                  </button>
+                )}
+              </div>
+
+              <p className="mt-5 min-h-6 text-sm font-black text-pink-100" aria-live="polite">
+                {tease}
+              </p>
+            </div>
+          </div>
+        </Screen>
+      );
     }
 
-    function revealFinalConfession() {
-      confessionCard.classList.add("show");
-      finalBtn.disabled = true;
-      finalBtn.style.opacity = "0.72";
-      finalBtn.textContent = "Okay, deep breath...";
-      vibrate([12, 26, 12]);
-      burstHearts(window.innerWidth / 2, window.innerHeight * 0.62, 12);
-      confessionCard.scrollIntoView({ behavior: "smooth", block: "center" });
+    function LoadingScreen() {
+      return (
+        <Screen center>
+          <div className="w-full max-w-[440px]">
+            <div className="glass rounded-[34px] p-7 text-center sm:p-9">
+              <p className="mx-auto mb-5 inline-flex min-h-[34px] items-center rounded-full border border-white/20 bg-white/10 px-4 text-sm font-black text-pink-100">
+                very official test
+              </p>
+              <h2 className="font-display text-[clamp(2rem,9vw,3rem)] leading-none text-white">
+                Checking if you deserve this surprise...
+              </h2>
+              <p className="mx-auto mt-5 max-w-[22rem] text-base font-extrabold leading-relaxed text-pink-50/80">
+                Scanning smile level... hmm suspiciously cute.
+              </p>
+              <div className="mt-7 h-4 overflow-hidden rounded-full bg-white/20 shadow-inner">
+                <div className="h-full w-full origin-left animate-[loadBar_3s_cubic-bezier(.18,.82,.22,1)_both] rounded-full bg-gradient-to-r from-rose via-pink-200 to-blue-400"></div>
+              </div>
+              <style>{`@keyframes loadBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }`}</style>
+            </div>
+          </div>
+        </Screen>
+      );
     }
 
-    function showAnswer(type) {
-      answerCard.classList.add("show");
-      if (type === "yes") {
-        answerCard.textContent = "You just made my day ❤️";
-        confettiBurst(window.innerWidth / 2, window.innerHeight * 0.52, 60);
-        burstHearts(window.innerWidth / 2, window.innerHeight * 0.5, 22);
-        vibrate([16, 34, 16]);
-      } else {
-        answerCard.textContent = "It's okay, no pressure. I just wanted to be honest.";
-        burstHearts(window.innerWidth / 2, window.innerHeight * 0.56, 10);
+    function EnvelopeScreen({ onDone }) {
+      const [open, setOpen] = useState(false);
+
+      const openEnvelope = () => {
+        if (open) return;
+        setOpen(true);
+        vibrate([16, 38, 16]);
+        heartConfetti();
+        setTimeout(() => {
+          burstConfetti();
+          onDone();
+        }, 1180);
+      };
+
+      return (
+        <Screen center>
+          <div className="grid w-full max-w-[440px] justify-items-center text-center">
+            <h2 className="font-display text-[clamp(2.3rem,10vw,3.6rem)] leading-none text-white">
+              Open this little surprise
+            </h2>
+            <p className="mx-auto mt-4 max-w-[22rem] text-base font-extrabold leading-relaxed text-pink-50/80">
+              One tap. Lepas tu jangan kata I tak warning kalau jadi sweet sangat.
+            </p>
+
+            <button type="button" onClick={openEnvelope} className="mt-8 grid w-full place-items-center" aria-label="Open this little surprise">
+              <div className={`envelope ${open ? "open" : ""}`}>
+                <div className="envelope-base"></div>
+                <div className="envelope-letter">
+                  <span className="font-display text-4xl font-black">For you 💌</span>
+                </div>
+                <div className="envelope-pocket"></div>
+                <div className="envelope-flap"></div>
+                <div className="envelope-seal">♥</div>
+              </div>
+            </button>
+
+            <p className="mt-5 text-base font-black text-pink-100 tap-pulse">Tap the envelope</p>
+          </div>
+        </Screen>
+      );
+    }
+
+    function GallerySection() {
+      const [selected, setSelected] = useState(null);
+      const images = CONFIG.imageLinks.slice(0, 6);
+      const titles = [
+        "love letter photo",
+        "soft launch feelings",
+        "tiny romance",
+        "awak ni haa",
+        "sweet evidence",
+        "last cute proof"
+      ];
+      const styles = [
+        { "--tilt": "-3deg", "--tilt-soft": "-1deg", "--delay": "-0.2s" },
+        { "--tilt": "3deg", "--tilt-soft": "1deg", "--delay": "-1.1s" },
+        { "--tilt": "-1deg", "--tilt-soft": "1.5deg", "--delay": "-1.8s" },
+        { "--tilt": "2deg", "--tilt-soft": "0deg", "--delay": "-0.8s" },
+        { "--tilt": "-2deg", "--tilt-soft": "-.5deg", "--delay": "-1.4s" },
+        { "--tilt": "1deg", "--tilt-soft": "2deg", "--delay": "-2.2s" }
+      ];
+
+      const openNote = (index) => {
+        setSelected(index);
         vibrate(12);
-      }
-      answerCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        heartConfetti();
+      };
+
+      return (
+        <>
+          <section className="reveal-pop">
+            <h2 className="mb-2 text-sm font-black uppercase tracking-normal text-pink-100/70">Love gallery</h2>
+            <p className="mb-4 text-[1rem] font-extrabold leading-relaxed text-white/74">
+              Gambar susun jadi love-ish collage. Tap mana-mana gambar, note dia keluar jelas dekat bawah.
+            </p>
+            <div className="heart-gallery">
+              {images.map((src, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => openNote(index)}
+                  style={styles[index]}
+                  className={`gallery-tile tile-${index}`}
+                  aria-label={`Open note ${index + 1}`}
+                >
+                  <img src={src} alt={`Love gallery ${index + 1}`} loading="lazy" />
+          <span className="absolute bottom-2 left-2 right-2 z-10 rounded-2xl bg-navy/54 px-3 py-2 text-left text-xs font-black text-white backdrop-blur-md">
+                    Tap note ✨
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {selected !== null && (
+            <div className="fixed inset-0 z-[70] bg-navy/62 backdrop-blur-sm" onClick={() => setSelected(null)}>
+              <div className="note-sheet" onClick={(event) => event.stopPropagation()}>
+                <article className="mx-auto max-w-[450px] rounded-[32px] border border-white/20 bg-gradient-to-br from-white/95 to-pink-100/95 p-4 text-navy shadow-[0_24px_80px_rgba(0,0,0,.35)]">
+                  <div className="grid grid-cols-[96px_1fr] gap-4">
+                    <img
+                      src={images[selected]}
+                      alt=""
+                      className="h-24 w-24 rounded-[24px] object-cover shadow-lg"
+                    />
+                    <div>
+                      <p className="mb-1 inline-flex rounded-full bg-rose/10 px-3 py-1 text-xs font-black text-rose">secret note</p>
+                      <h3 className="font-display text-2xl leading-none text-midnight">{titles[selected]}</h3>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-[1.05rem] font-black leading-relaxed text-midnight/78">
+                    {CONFIG.galleryNotes[selected] || "Secret note: this one is for you."}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSelected(null)}
+                    className="mt-4 min-h-[52px] w-full rounded-[20px] bg-gradient-to-r from-midnight to-ocean px-4 py-3 text-base font-black text-white active:scale-[.98]"
+                  >
+                    Okay eeee 😳
+                  </button>
+                </article>
+              </div>
+            </div>
+          )}
+        </>
+      );
     }
 
-    function init() {
-      setAppHeight();
-      renderGallery();
-      setupRevealAnimations();
-      updateBlushMeter();
-      setupMusic();
+    function SurpriseScreen() {
+      const [spotText, setSpotText] = useState("Pick a spot. I promise it is not scary, just a little sweet.");
+      const [found, setFound] = useState([]);
+      const [blush, setBlush] = useState(12);
+      const [blushText, setBlushText] = useState("Tap kalau awak senyum sikit. Jangan tipu, I can sense it.");
+      const [musicStatus, setMusicStatus] = useState(CONFIG.musicLink ? "Ready when you tap." : "Add a music link in the code when you're ready.");
+      const [playing, setPlaying] = useState(false);
+      const [confessionOpen, setConfessionOpen] = useState(false);
+      const [answer, setAnswer] = useState("");
+      const audioRef = useRef(null);
 
-      document.querySelectorAll("[data-recipient]").forEach((item) => {
-        item.textContent = recipientName;
-      });
-      document.querySelectorAll("[data-sender]").forEach((item) => {
-        item.textContent = senderName;
-      });
-      mainMessageEl.innerHTML = textToParagraphs(mainMessage);
-      finalConfessionEl.innerHTML = textToParagraphs(finalConfession);
+      const revealSpot = (index) => {
+        setSpotText(spotMessages[index]);
+        setFound((current) => Array.from(new Set([...current, index])));
+        vibrate([10, 24, 10]);
+        heartConfetti();
+      };
 
-      tellMeBtn.addEventListener("click", startLoading);
-      envelopeBtn.addEventListener("click", openEnvelope);
-      finalBtn.addEventListener("click", revealFinalConfession);
-      awwBtn.addEventListener("click", () => showAnswer("yes"));
-      timeBtn.addEventListener("click", () => showAnswer("time"));
-      musicBtn.addEventListener("click", toggleMusic);
-      blushBtn.addEventListener("click", increaseBlush);
+      const increaseBlush = () => {
+        const next = Math.min(100, blush + 22);
+        const textIndex = Math.min(Math.floor(blush / 22), blushMessages.length - 1);
+        setBlush(next);
+        setBlushText(blushMessages[textIndex]);
+        vibrate(16);
+        heartConfetti();
+        if (next >= 100) burstConfetti();
+      };
 
-      spotButtons.forEach((button) => {
-        button.addEventListener("click", () => revealSpot(button));
-      });
+      const toggleMusic = async () => {
+        if (!CONFIG.musicLink.trim()) {
+          setMusicStatus("Music link belum letak, but the mood is still here 🎵");
+          vibrate(10);
+          return;
+        }
+        try {
+          if (audioRef.current.paused) {
+            await audioRef.current.play();
+            setPlaying(true);
+            setMusicStatus("Now playing softly.");
+          } else {
+            audioRef.current.pause();
+            setPlaying(false);
+            setMusicStatus("Paused for now.");
+          }
+        } catch {
+          setMusicStatus("Safari needs a direct tap, try once more.");
+        }
+      };
 
-      noThanksBtn.addEventListener("touchstart", runAway, { passive: false });
-      noThanksBtn.addEventListener("pointerdown", runAway);
-      noThanksBtn.addEventListener("mouseenter", runAway);
-      noThanksBtn.addEventListener("click", runAway);
+      const openConfession = () => {
+        setConfessionOpen(true);
+        vibrate([12, 26, 12]);
+        heartConfetti();
+      };
 
-      window.addEventListener("resize", setAppHeight);
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener("resize", setAppHeight);
-        window.visualViewport.addEventListener("scroll", setAppHeight);
-      }
+      const chooseAnswer = (type) => {
+        if (type === "yes") {
+          setAnswer("You just made my day ❤️");
+          burstConfetti();
+          heartConfetti();
+        } else {
+          setAnswer("It's okay, no pressure. I just wanted to be honest.");
+          heartConfetti();
+        }
+      };
+
+      return (
+        <Screen>
+          <div className="mx-auto w-full max-w-[470px] pb-4">
+            <article className="reveal-pop glass relative overflow-hidden rounded-[36px] p-7">
+              <span className="absolute right-5 top-5 grid h-20 w-20 rotate-12 place-items-center rounded-full border border-white/15 bg-white/10 text-sm font-black text-pink-200">
+                awww
+              </span>
+              <p className="mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-black text-pink-100">
+                made with nervous confidence
+              </p>
+              <h1 className="font-display text-[clamp(2.5rem,11vw,3.9rem)] leading-[.96] text-white">
+                For You,<br />{CONFIG.recipientName} ✨
+              </h1>
+              <p className="mt-4 text-base font-black text-pink-100/76">From {CONFIG.senderName}</p>
+              <div className="mt-7 space-y-5 text-[1.05rem] font-extrabold leading-relaxed text-white/82">
+                {paragraphs(CONFIG.mainMessage).map((item, index) => <p key={index}>{item}</p>)}
+              </div>
+            </article>
+
+            <section className="reveal-pop my-5 grid grid-cols-[auto_1fr] items-center gap-4 rounded-[30px] border border-white/15 bg-white/10 p-4 shadow-xl backdrop-blur-xl">
+              <span className="grid h-14 w-14 -rotate-6 place-items-center rounded-[20px] bg-gradient-to-br from-rose to-blue-500 text-base font-black text-white shadow-lg">
+                psst
+              </span>
+              <p className="text-[1rem] font-black leading-relaxed text-white/82">
+                Scroll slow-slow okay... ada banyak benda comel tersorok untuk awak.
+              </p>
+            </section>
+
+            <GallerySection />
+
+            <section className="reveal-pop mt-7">
+              <h2 className="mb-3 text-sm font-black uppercase text-pink-100/70">Tiny reasons</h2>
+              <div className="grid gap-3">
+                {[
+                  ["Your kind of smile", "Yang buat orang rasa, eeee kenapa comel sangat ni?"],
+                  ["Small moments", "The random little things about you somehow stay rent-free in my head."],
+                  ["This page", "A tiny digital bouquet, because feelings as pixels pun boleh jadi sweet."]
+                ].map(([title, copy]) => (
+                  <article key={title} className="rounded-[28px] border border-white/15 bg-white/10 p-5 shadow-xl backdrop-blur-xl">
+                    <h3 className="text-lg font-black text-white">{title}</h3>
+                    <p className="mt-2 text-base font-bold leading-relaxed text-white/70">{copy}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="reveal-pop mt-7 rounded-[32px] border border-white/15 bg-gradient-to-br from-white/16 to-pink-300/10 p-6 shadow-xl backdrop-blur-xl">
+              <p className="font-display text-[1.55rem] font-black leading-tight text-white">
+                "Some people make the world feel gentler just by being in it."
+              </p>
+              <span className="mt-3 block text-sm font-black text-pink-100/80">Yes, awak lah tu. Jangan buat-buat tak tahu.</span>
+            </section>
+
+            <section className="reveal-pop mt-7 rounded-[32px] border border-white/15 bg-white/10 p-5 shadow-xl backdrop-blur-xl">
+              <h2 className="mb-2 text-sm font-black uppercase text-pink-100/70">Surprise spots</h2>
+              <p className="mb-4 text-base font-extrabold text-white/76">Tap satu-satu. Kalau tersenyum, kira website ni menang.</p>
+              <div className="grid grid-cols-2 gap-3">
+                {spotMessages.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => revealSpot(index)}
+                    className={`min-h-[76px] rounded-[22px] border px-3 py-3 text-left text-sm font-black transition active:scale-[.975] ${
+                      found.includes(index)
+                        ? "border-pink-200/40 bg-gradient-to-br from-rose to-blue-500 text-white"
+                        : "border-white/15 bg-white/10 text-white/82"
+                    }`}
+                  >
+                    <span className="block text-lg text-pink-200">{String(index + 1).padStart(2, "0")}</span>
+                    {["tekan sini", "secret sikit", "jangan malu", "awak ni haa", "one more", "last-last"][index]}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-4 rounded-[24px] border border-pink-200/20 bg-navy/24 p-4">
+                <span className="mb-2 inline-flex rounded-full bg-rose/80 px-3 py-1 text-xs font-black text-white">secret note</span>
+                <p className="text-[1.02rem] font-black leading-relaxed text-white/84">{spotText}</p>
+              </div>
+            </section>
+
+            <section className="reveal-pop mt-7 rounded-[32px] border border-white/15 bg-white/10 p-5 shadow-xl backdrop-blur-xl">
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <h2 className="text-lg font-black leading-tight text-white">Current level of "eeee awak ni haa"</h2>
+                <span className="rounded-full bg-gradient-to-r from-rose to-blue-500 px-4 py-2 text-base font-black text-white">{blush}%</span>
+              </div>
+              <div className="h-4 overflow-hidden rounded-full bg-white/15">
+                <div
+                  className="meter-spark h-full rounded-full bg-gradient-to-r from-rose via-blush to-blue-400 transition-all duration-500"
+                  style={{ width: `${blush}%` }}
+                />
+              </div>
+              <p className="my-4 min-h-[42px] text-base font-black leading-relaxed text-white/78">{blushText}</p>
+              <PrimaryButton onClick={increaseBlush}>I smiled sikit 😳</PrimaryButton>
+            </section>
+
+            <section className="reveal-pop mt-7 rounded-[32px] border border-white/15 bg-white/10 p-5 shadow-xl backdrop-blur-xl">
+              <h2 className="mb-3 text-sm font-black uppercase text-pink-100/70">Background music</h2>
+              <p className="mb-4 text-base font-extrabold leading-relaxed text-white/76">
+                Music waits for your tap because iPhone Safari likes consent too.
+              </p>
+              <PrimaryButton onClick={toggleMusic}>{playing ? "Pause Music ⏸" : "Play Music 🎵"}</PrimaryButton>
+              <p className="mt-3 min-h-5 text-center text-sm font-black text-pink-100/75">{musicStatus}</p>
+              <audio ref={audioRef} src={CONFIG.musicLink} preload="none" loop playsInline />
+            </section>
+
+            <section className="reveal-pop mt-7 rounded-[34px] border border-white/15 bg-gradient-to-br from-white/14 to-pink-300/10 p-6 text-center shadow-xl backdrop-blur-xl">
+              <h2 className="font-display text-[2.25rem] leading-none text-white">One tiny thing left...</h2>
+              <p className="mx-auto my-4 max-w-[22rem] text-base font-extrabold leading-relaxed text-white/72">
+                Okay this part macam nervous sikit. Jangan gelak kuat sangat.
+              </p>
+              <PrimaryButton onClick={openConfession} disabled={confessionOpen}>
+                {confessionOpen ? "Okay, deep breath..." : "One more thing..."}
+              </PrimaryButton>
+
+              {confessionOpen && (
+                <article className="mt-5 rounded-[28px] border border-white/15 bg-navy/30 p-5 text-left">
+                  <div className="space-y-4 text-[1.05rem] font-extrabold leading-relaxed text-white/84">
+                    {paragraphs(CONFIG.finalConfession).map((item, index) => <p key={index}>{item}</p>)}
+                  </div>
+                  <div className="mt-5 grid gap-3">
+                    <PrimaryButton onClick={() => chooseAnswer("yes")}>Aww okay ❤️</PrimaryButton>
+                    <button
+                      type="button"
+                      onClick={() => chooseAnswer("time")}
+                      className="min-h-[56px] rounded-[22px] border border-white/15 bg-white/10 px-5 py-4 text-base font-black text-white active:scale-[.975]"
+                    >
+                      I need time 😭
+                    </button>
+                  </div>
+                </article>
+              )}
+
+              {answer && (
+                <div className="mt-4 rounded-[24px] border border-white/15 bg-white/12 p-4 text-center text-base font-black text-white/86">
+                  {answer}
+                </div>
+              )}
+            </section>
+
+            <p className="reveal-pop mx-auto mt-6 max-w-[24rem] text-center text-sm font-black leading-relaxed text-pink-100/68">
+              Made to be opened on a phone, smiled at quietly, and maybe reread later.
+            </p>
+          </div>
+        </Screen>
+      );
     }
 
-    init();
+    function App() {
+      const [screen, setScreen] = useState("intro");
+      useAppHeight();
+      useRevealObserver(screen);
+
+      const startLoading = () => {
+        vibrate(12);
+        setScreen("loading");
+        heartConfetti();
+        setTimeout(() => setScreen("envelope"), 3200);
+      };
+
+      return (
+        <main className="app-shell">
+          <div className="aurora"></div>
+          <div className="star-field" aria-hidden="true">
+            {["♥", "✦", "♡", "✧", "♥", "♡", "✦", "♥"].map((item, index) => (
+              <span
+                key={index}
+                className="floating-heart"
+                style={{
+                  "--x": `${8 + index * 12}%`,
+                  "--s": `${index % 2 ? 0.9 : 1.2}rem`,
+                  "--d": `${12 + (index % 4)}s`,
+                  "--delay": `${-index * 1.7}s`,
+                  "--drift": `${index % 2 ? -24 : 24}px`
+                }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+
+          {screen === "intro" && <IntroScreen onStart={startLoading} />}
+          {screen === "loading" && <LoadingScreen />}
+          {screen === "envelope" && <EnvelopeScreen onDone={() => setScreen("surprise")} />}
+          {screen === "surprise" && <SurpriseScreen />}
+        </main>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
 </body>
 </html>
